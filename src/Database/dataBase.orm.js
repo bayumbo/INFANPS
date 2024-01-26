@@ -38,5 +38,23 @@ sequelize.sync({ force: false })
         console.error("Error al sincronizar las tablas:", err.message);
     });
 
+
+	const adivinanzaModel = require('../models/adivinanza') 
+	const categoriaModel = require('../models/categoria') 
+
+    //sincronia
+	
+	const adivinanza = adivinanzaModel(sequelize, Sequelize)
+	const categoria = categoriaModel(sequelize, Sequelize)
+	
+    //relacion Adivinanza-Categoria
+	categoria.hasMany(adivinanza)
+	adivinanza.belongsTo(categoria)
+
+    module.exports = {
+		adivinanza,
+		categoria
+	};
+	
 // Exportar el objeto sequelize
 module.exports = sequelize;
