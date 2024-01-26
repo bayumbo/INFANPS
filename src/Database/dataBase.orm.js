@@ -39,22 +39,87 @@ sequelize.sync({ force: false })
     });
 
 
-	const adivinanzaModel = require('../models/adivinanza') 
-	const categoriaModel = require('../models/categoria') 
+const adivinanzaModel = require('../models/adivinanza')
+const categoriaModel = require('../models/categoria')
+const UsuarioModel = require('../models/usuario');
+const PerfilModel = require('../models/perfil');
+const InformacionSeguridadModel = require('../models/informacionSeguridad');
+const ActividadesInteractivasModel = require('../models/actividadesInteractivas');
+const ForoModel = require('../models/foro');
+const MensajesForoModel = require('../models/mensajesForo');
+const NotificacionModel = require('../models/notificacion');
+const GestionContenidoModel = require('../models/gestionContenido');
+const Categoria1Model = require('../models/categoria1');
+const RelacionCategoriasContenidoModel = require('../models/relacionCategoriasContenido');
+const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
 
-    //sincronia
-	
-	const adivinanza = adivinanzaModel(sequelize, Sequelize)
-	const categoria = categoriaModel(sequelize, Sequelize)
-	
-    //relacion Adivinanza-Categoria
-	categoria.hasMany(adivinanza)
-	adivinanza.belongsTo(categoria)
+//sincronia
 
-    module.exports = {
-		adivinanza,
-		categoria
-	};
-	
+const adivinanza = adivinanzaModel(sequelize, Sequelize)
+const categoria = categoriaModel(sequelize, Sequelize)
+const Usuario = UsuarioModel(sequelize, Sequelize);
+const Perfil = PerfilModel(sequelize, Sequelize);
+const InformacionSeguridad = InformacionSeguridadModel(sequelize, Sequelize);
+const ActividadesInteractivas = ActividadesInteractivasModel(sequelize, Sequelize);
+const Foro = ForoModel(sequelize, Sequelize);
+const MensajesForo = MensajesForoModel(sequelize, Sequelize);
+const Notificacion = NotificacionModel(sequelize, Sequelize);
+const GestionContenido = GestionContenidoModel(sequelize, Sequelize);
+const Categoria = CategoriaModel(sequelize, Sequelize);
+const RelacionCategoriasContenido = RelacionCategoriasContenidoModel(sequelize, Sequelize);
+const ProgramacionPublicacion = ProgramacionPublicacionModel(sequelize, Sequelize);
+
+//relacion Adivinanza-Categoria
+categoria.hasMany(adivinanza)
+adivinanza.belongsTo(categoria)
+Usuario.hasOne(Perfil, { foreignKey: 'id_usuario' });
+Perfil.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+
+Usuario.hasMany(Notificacion, { foreignKey: 'id_usuario' });
+Notificacion.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+
+Usuario.hasMany(GestionContenido, { foreignKey: 'id_administrador' });
+GestionContenido.belongsTo(Usuario, { foreignKey: 'id_administrador' });
+
+Usuario.hasMany(InformacionSeguridad, { foreignKey: 'id_autor' });
+InformacionSeguridad.belongsTo(Usuario, { foreignKey: 'id_autor' });
+
+Usuario.hasMany(ActividadesInteractivas, { foreignKey: 'id_autor' });
+ActividadesInteractivas.belongsTo(Usuario, { foreignKey: 'id_autor' });
+
+Usuario.hasMany(Foro, { foreignKey: 'id_creador' });
+Foro.belongsTo(Usuario, { foreignKey: 'id_creador' });
+
+Usuario.hasMany(MensajesForo, { foreignKey: 'id_usuario' });
+MensajesForo.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+
+Foro.hasMany(MensajesForo, { foreignKey: 'id_foro' });
+MensajesForo.belongsTo(Foro, { foreignKey: 'id_foro' });
+
+GestionContenido.hasMany(RelacionCategoriasContenido, { foreignKey: 'id_contenido' });
+RelacionCategoriasContenido.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
+
+Categoria.hasMany(RelacionCategoriasContenido, { foreignKey: 'id_categoria' });
+RelacionCategoriasContenido.belongsTo(Categoria, { foreignKey: 'id_categoria' });
+
+GestionContenido.hasMany(ProgramacionPublicacion, { foreignKey: 'id_contenido' });
+ProgramacionPublicacion.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
+
+module.exports = {
+    adivinanza,
+    categoria,
+    Usuario,
+    Perfil,
+    InformacionSeguridad,
+    ActividadesInteractivas,
+    Foro,
+    MensajesForo,
+    Notificacion,
+    GestionContenido,
+    Categoria,
+    RelacionCategoriasContenido,
+    ProgramacionPublicacion,
+};
+
 // Exportar el objeto sequelize
 module.exports = sequelize;
