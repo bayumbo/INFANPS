@@ -31,4 +31,4 @@ const Usuario = (sequelize, type) => {
         }
     );
 };
-mdoule.exports = Usuario;
+module.exports = Usuario;

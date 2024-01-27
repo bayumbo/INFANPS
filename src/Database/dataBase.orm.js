@@ -41,17 +41,17 @@ sequelize.sync({ force: false })
 
 const adivinanzaModel = require('../models/adivinanza')
 const categoriaModel = require('../models/categoria')
-const UsuarioModel = require('../models/usuario');
-const PerfilModel = require('../models/perfil');
-const InformacionSeguridadModel = require('../models/informacionSeguridad');
-const ActividadesInteractivasModel = require('../models/actividadesInteractivas');
-const ForoModel = require('../models/foro');
-const MensajesForoModel = require('../models/mensajesForo');
-const NotificacionModel = require('../models/notificacion');
-const GestionContenidoModel = require('../models/gestionContenido');
-const Categoria1Model = require('../models/categoria1');
-const RelacionCategoriasContenidoModel = require('../models/relacionCategoriasContenido');
-const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
+const UsuarioModel = require('../models/usuarios');
+const PerfilModel = require('../models/perfiles');
+const InformacionSeguridadModel = require('../models/informacion');
+const ActividadesInteractivasModel = require('../models/actividades');
+const ForoModel = require('../models/foros');
+const MensajesForoModel = require('../models/mensajesForos');
+const NotificacionModel = require('../models/notificaciones');
+const GestionContenidoModel = require('../models/gestion');
+const CategoriaModel = require('../models/categoria');
+const RelacionCategoriasContenidoModel = require('../models/categorias');
+const ProgramacionPublicacionModel = require('../models/prog');
 
 //sincronia
 
