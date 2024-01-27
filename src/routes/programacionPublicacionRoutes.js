@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const programacionPublicacionController = require('../controllers/programacionPublicacionController');
+const programacionPublicacionController = require('../controller/programacionPublicacionController');
 
 // Ruta para obtener todas las programaciones de publicación
 router.get('/programacion-publicacion', programacionPublicacionController.obtenerProgramacionPublicaciones);

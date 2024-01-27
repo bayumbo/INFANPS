@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const informacionSeguridadController = require('../controllers/informacionSeguridadController');
+const informacionSeguridadController = require('../controller/informacionSeguridadController');
 
 // Definir rutas para información de seguridad
 router.get('/informacion-seguridad', informacionSeguridadController.obtenerInformacionSeguridad);

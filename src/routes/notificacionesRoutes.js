@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const notificacionesController = require('../controllers/notificacionesController');
+const notificacionesController = require('../controller/notificacionesController');
 
 // Ruta para obtener todas las notificaciones
 router.get('/notificaciones', notificacionesController.obtenerNotificaciones);
