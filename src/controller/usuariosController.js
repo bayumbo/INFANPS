@@ -1,8 +1,8 @@
-const { Usuario, Perfil, Notificacion, GestionContenido } = require('../models');
+const { Usuarios } = require('../models');
 
 const obtenerUsuarios = async(req, res) => {
     try {
-        const usuarios = await Usuario.findAll();
+        const usuarios = await Usuarios.findAll();
         return res.json(usuarios);
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ const obtenerUsuarios = async(req, res) => {
 
 const crearUsuario = async(req, res) => {
     try {
-        const nuevoUsuario = await Usuario.create(req.body);
+        const nuevoUsuario = await Usuarios.create(req.body);
         return res.json(nuevoUsuario);
     } catch (error) {
         console.error(error);
@@ -20,10 +20,27 @@ const crearUsuario = async(req, res) => {
     }
 };
 
+const obtenerUsuarioPorId = async(req, res) => {
+    const { id } = req.params;
+    try {
+        const usuario = await Usuarios.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
+        return res.json(usuario);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al obtener usuario por ID' });
+    }
+};
+
 const actualizarUsuario = async(req, res) => {
     const { id } = req.params;
     try {
-        const usuarioActualizado = await Usuario.update(req.body, { where: { id } });
+        const [filasActualizadas, [usuarioActualizado]] = await Usuarios.update(req.body, { where: { id }, returning: true });
+        if (filasActualizadas === 0) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
         return res.json(usuarioActualizado);
     } catch (error) {
         console.error(error);
@@ -34,7 +51,10 @@ const actualizarUsuario = async(req, res) => {
 const eliminarUsuario = async(req, res) => {
     const { id } = req.params;
     try {
-        await Usuario.destroy({ where: { id } });
+        const filasEliminadas = await Usuarios.destroy({ where: { id } });
+        if (filasEliminadas === 0) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
         return res.json({ mensaje: 'Usuario eliminado con éxito' });
     } catch (error) {
         console.error(error);
@@ -45,6 +65,7 @@ const eliminarUsuario = async(req, res) => {
 module.exports = {
     obtenerUsuarios,
     crearUsuario,
+    obtenerUsuarioPorId,
     actualizarUsuario,
     eliminarUsuario,
 };
