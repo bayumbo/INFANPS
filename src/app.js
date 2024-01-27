@@ -10,7 +10,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const bodyparser = require('body-parser');
 const fileUpload = require("express-fileupload");
 const helmet = require('helmet');
-
+const mainController = require('./main.controller');
 // Importar módulos locales
 const { MYSQLHOST, MYSQLUSER, MYSQLPASSWORD, MYSQLDATABASE, MYSQLPORT } = require("./keys");
 require('./lib/passport');
@@ -64,6 +64,7 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.get('/', mainController.getIndex);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
