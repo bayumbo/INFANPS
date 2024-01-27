@@ -10,5 +10,6 @@ router.post('/gestion-contenidos', gestionContenidosController.crearGestionConte
 router.get('/gestion-contenidos/:id', gestionContenidosController.obtenerGestionContenidoPorId);
 router.put('/gestion-contenidos/:id', gestionContenidosController.actualizarGestionContenido);
 router.delete('/gestion-contenidos/:id', gestionContenidosController.eliminarGestionContenido);
+router.get('/holamundo', gestionContenidosController.holaMundo);
 
 module.exports = router;

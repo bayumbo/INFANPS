@@ -60,12 +60,16 @@ const eliminarGestionContenido = async(req, res) => {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al eliminar gestión de contenido' });
     }
-};
 
+};
+const holaMundo = (req, res) => {
+    res.render('holamundo', { mensaje: '¡Hola mundo!' }); // Asegúrate de tener una vista llamada 'hola-mundo.hbs'
+};
 module.exports = {
     obtenerGestionContenidos,
     crearGestionContenido,
     obtenerGestionContenidoPorId,
     actualizarGestionContenido,
     eliminarGestionContenido,
+    holaMundo,
 };
