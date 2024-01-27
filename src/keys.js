@@ -14,4 +14,4 @@ module.exports = {
     MYSQLDATABASE,
     MYSQLPORT,
     MYSQL_URI
-};
+}; 
