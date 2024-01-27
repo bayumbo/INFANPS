@@ -1,4 +1,4 @@
-const { Foros, Usuarios } = require('../models');
+const { Foros, Usuarios } = require('../models/foros');
 
 const obtenerForos = async(req, res) => {
     try {

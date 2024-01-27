@@ -1,4 +1,4 @@
-const { InformacionSeguridad, Usuarios } = require('../models');
+const { InformacionSeguridad, Usuarios } = require('../models/informacionSeguridad');
 
 const obtenerInformacionSeguridad = async(req, res) => {
     try {

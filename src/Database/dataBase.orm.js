@@ -43,15 +43,15 @@ const adivinanzaModel = require('../models/adivinanza')
 const categoriaModel = require('../models/categoria')
 const UsuarioModel = require('../models/usuarios');
 const PerfilModel = require('../models/perfiles');
-const InformacionSeguridadModel = require('../models/informacion');
-const ActividadesInteractivasModel = require('../models/actividades');
+const InformacionSeguridadModel = require('../models/informacionSeguridad');
+const ActividadesInteractivasModel = require('../models/actividadesInteractivas');
 const ForoModel = require('../models/foros');
 const MensajesForoModel = require('../models/mensajesForos');
 const NotificacionModel = require('../models/notificaciones');
-const GestionContenidoModel = require('../models/gestion');
+const GestionContenidoModel = require('../models/gestionContenidos');
 const CategoriaModel = require('../models/categoria');
 const RelacionCategoriasContenidoModel = require('../models/categorias');
-const ProgramacionPublicacionModel = require('../models/prog');
+const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
 
 //sincronia
 

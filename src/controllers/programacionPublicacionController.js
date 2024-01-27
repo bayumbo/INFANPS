@@ -1,4 +1,4 @@
-const { ProgramacionPublicacion, GestionContenidos } = require('../models');
+const { ProgramacionPublicacion, GestionContenidos } = require('../models/programacionPublicacion');
 
 const obtenerProgramacionPublicaciones = async(req, res) => {
     try {

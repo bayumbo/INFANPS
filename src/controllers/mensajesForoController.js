@@ -1,4 +1,4 @@
-const { MensajesForo, Foros, Usuarios } = require('../models');
+const { MensajesForo, Foros, Usuarios } = require('../models/mensajesForos');
 
 const obtenerMensajesForo = async(req, res) => {
     try {

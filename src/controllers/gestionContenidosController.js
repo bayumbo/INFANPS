@@ -1,4 +1,4 @@
-const { GestionContenidos, Usuarios } = require('../models');
+const { GestionContenidos, Usuarios } = require('../models/gestionContenidos');
 
 const obtenerGestionContenidos = async(req, res) => {
     try {

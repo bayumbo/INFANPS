@@ -1,4 +1,4 @@
-const { Usuarios } = require('../models');
+const { Usuarios } = require('../models/usuarios');
 
 const obtenerUsuarios = async(req, res) => {
     try {

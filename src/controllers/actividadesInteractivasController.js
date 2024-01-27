@@ -1,4 +1,4 @@
-const { ActividadesInteractivas, Usuarios } = require('../models');
+const { ActividadesInteractivas, Usuarios } = require('../models/actividadesInteractivas');
 
 const obtenerActividadesInteractivas = async(req, res) => {
     try {
