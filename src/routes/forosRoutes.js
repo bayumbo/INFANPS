@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const forosController = require('../controllers/forosController');
+const forosController = require('../controller/forosController');
 
 // Definir rutas para foros
 router.get('/foros', forosController.obtenerForos);

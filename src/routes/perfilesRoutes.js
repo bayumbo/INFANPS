@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const perfilesController = require('../controllers/perfilesController');
+const perfilesController = require('../controller/perfilesController');
 
 // Ruta para obtener todos los perfiles
 router.get('/perfiles', perfilesController.obtenerPerfiles);
