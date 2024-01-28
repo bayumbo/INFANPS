@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const mensajesForoController = require('../controller/mensajesForoController');
+const mensajesForoController = require('../controllers/mensajesForoController');
 
 // Ruta para obtener todos los mensajes de foro
 router.get('/mensajes-foro', mensajesForoController.obtenerMensajesForo);

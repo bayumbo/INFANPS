@@ -20,4 +20,5 @@ const GestionContenido = (sequelize, type) => {
     );
 };
 
+
 module.exports = GestionContenido;

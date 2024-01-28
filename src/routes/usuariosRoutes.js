@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const usuariosController = require('../controller/usuariosController');
+const usuariosController = require('../controllers/usuariosController');
 
 // Ruta para obtener todos los usuarios
 router.get('/usuarios', usuariosController.obtenerUsuarios);
