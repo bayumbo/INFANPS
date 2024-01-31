@@ -25,4 +25,4 @@ const Perfil = (sequelize, type) => {
     );
 };
 
-module.exports = Perfil;
+module.exports = Perfil;

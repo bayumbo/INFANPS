@@ -122,4 +122,4 @@ module.exports = {
 };
 
 // Exportar el objeto sequelize
-module.exports = sequelize;
+//module.exports = sequelize;
