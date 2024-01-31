@@ -37,10 +37,6 @@ sequelize.sync({ force: false })
     .catch((err) => {
         console.error("Error al sincronizar las tablas:", err.message);
     });
-
-
-const adivinanzaModel = require('../models/adivinanza')
-const categoriaModel = require('../models/categoria')
 const UsuarioModel = require('../models/usuarios');
 const PerfilModel = require('../models/perfiles');
 const InformacionSeguridadModel = require('../models/informacionSeguridad');
@@ -49,14 +45,11 @@ const ForoModel = require('../models/foros');
 const MensajesForoModel = require('../models/mensajesForos');
 const NotificacionModel = require('../models/notificaciones');
 const GestionContenidoModel = require('../models/gestionContenidos');
-const CategoriaModel = require('../models/categoria');
+const CategoriaModel = require('../models/categorias');
 const RelacionCategoriasContenidoModel = require('../models/categorias');
 const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
 
 //sincronia
-
-const adivinanza = adivinanzaModel(sequelize, Sequelize)
-const categoria = categoriaModel(sequelize, Sequelize)
 const Usuario = UsuarioModel(sequelize, Sequelize);
 const Perfil = PerfilModel(sequelize, Sequelize);
 const InformacionSeguridad = InformacionSeguridadModel(sequelize, Sequelize);
@@ -70,8 +63,7 @@ const RelacionCategoriasContenido = RelacionCategoriasContenidoModel(sequelize, 
 const ProgramacionPublicacion = ProgramacionPublicacionModel(sequelize, Sequelize);
 
 //relacion Adivinanza-Categoria
-categoria.hasMany(adivinanza)
-adivinanza.belongsTo(categoria)
+
 Usuario.hasOne(Perfil, { foreignKey: 'id_usuario' });
 Perfil.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
@@ -106,8 +98,6 @@ GestionContenido.hasMany(ProgramacionPublicacion, { foreignKey: 'id_contenido' }
 ProgramacionPublicacion.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
 
 module.exports = {
-    adivinanza,
-    categoria,
     Usuario,
     Perfil,
     InformacionSeguridad,
@@ -119,6 +109,7 @@ module.exports = {
     Categoria,
     RelacionCategoriasContenido,
     ProgramacionPublicacion,
+
 };
 
 // Exportar el objeto sequelize
