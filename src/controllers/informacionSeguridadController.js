@@ -1,4 +1,4 @@
-const { InformacionSeguridad, Usuarios } = require('../models/informacionSeguridad');
+const { InformacionSeguridad, Usuarios } = require('../Database/dataBase.orm');
 
 const obtenerInformacionSeguridad = async(req, res) => {
     try {
@@ -44,7 +44,7 @@ const actualizarInformacionSeguridad = async(req, res) => {
         return res.json(informacionSeguridadActualizada);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar información de seguridad' });
+        return res.status(500).json({ mensaje: 'Actualizar informacion seguridad con exito' });
     }
 };
 
