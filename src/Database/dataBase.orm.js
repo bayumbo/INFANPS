@@ -46,7 +46,7 @@ const MensajesForoModel = require('../models/mensajesForos');
 const NotificacionModel = require('../models/notificaciones');
 const GestionContenidoModel = require('../models/gestionContenidos');
 const CategoriaModel = require('../models/categorias');
-const RelacionCategoriasContenidoModel = require('../models/categorias');
+const RelacionCategoriasContenidoModel = require('../models/relacionCategoriasContenido');
 const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
 
 //sincronia
@@ -96,6 +96,34 @@ RelacionCategoriasContenido.belongsTo(Categoria, { foreignKey: 'id_categoria' })
 
 GestionContenido.hasMany(ProgramacionPublicacion, { foreignKey: 'id_contenido' });
 ProgramacionPublicacion.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
+
+Foro.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_contenido',
+    uniqueConstraint: {
+        name: 'Foro_Categoria_unique',
+        message: 'La relación ya existe'
+    }
+});
+
+ActividadesInteractivas.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_contenido',
+    uniqueConstraint: {
+        name: 'ActividadesInteractivas_Categoria_unique',
+        message: 'La relación ya existe'
+    }
+});
+
+InformacionSeguridad.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_contenido',
+    uniqueConstraint: {
+        name: 'InformacionSeguridad_Categoria_unique',
+        message: 'La relación ya existe'
+    }
+});
+
 
 module.exports = {
     Usuario,

@@ -44,7 +44,7 @@ const actualizarInformacionSeguridad = async(req, res) => {
         return res.json(informacionSeguridadActualizada);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Actualizar informacion seguridad con exito' });
+        return res.status(500).json({ mensaje: 'Error al actualizar' });
     }
 };
 

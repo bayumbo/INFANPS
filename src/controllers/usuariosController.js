@@ -1,8 +1,8 @@
-const { Usuarios } = require('../models/usuarios');
+const { Usuario } = require('../Database/dataBase.orm');
 
 const obtenerUsuarios = async(req, res) => {
     try {
-        const usuarios = await Usuarios.findAll();
+        const usuarios = await Usuario.findAll();
         return res.json(usuarios);
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ const obtenerUsuarios = async(req, res) => {
 
 const crearUsuario = async(req, res) => {
     try {
-        const nuevoUsuario = await Usuarios.create(req.body);
+        const nuevoUsuario = await Usuario.create(req.body);
         return res.json(nuevoUsuario);
     } catch (error) {
         console.error(error);
@@ -23,7 +23,7 @@ const crearUsuario = async(req, res) => {
 const obtenerUsuarioPorId = async(req, res) => {
     const { id } = req.params;
     try {
-        const usuario = await Usuarios.findByPk(id);
+        const usuario = await Usuario.findByPk(id);
         if (!usuario) {
             return res.status(404).json({ mensaje: 'Usuario no encontrado' });
         }
@@ -37,7 +37,7 @@ const obtenerUsuarioPorId = async(req, res) => {
 const actualizarUsuario = async(req, res) => {
     const { id } = req.params;
     try {
-        const [filasActualizadas, [usuarioActualizado]] = await Usuarios.update(req.body, { where: { id }, returning: true });
+        const [filasActualizadas, [usuarioActualizado]] = await Usuario.update(req.body, { where: { id }, returning: true });
         if (filasActualizadas === 0) {
             return res.status(404).json({ mensaje: 'Usuario no encontrado' });
         }
@@ -51,7 +51,7 @@ const actualizarUsuario = async(req, res) => {
 const eliminarUsuario = async(req, res) => {
     const { id } = req.params;
     try {
-        const filasEliminadas = await Usuarios.destroy({ where: { id } });
+        const filasEliminadas = await Usuario.destroy({ where: { id } });
         if (filasEliminadas === 0) {
             return res.status(404).json({ mensaje: 'Usuario no encontrado' });
         }

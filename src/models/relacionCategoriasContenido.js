@@ -1,7 +1,7 @@
 const RelacionCategoriasContenido = (sequelize, type) => {
     return sequelize.define(
-        "RelacionCategoriasContenido", {
-            id: {
+        'RelacionCategoriasContenido', {
+            id_relacion: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
