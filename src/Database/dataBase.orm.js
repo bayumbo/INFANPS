@@ -48,6 +48,7 @@ const GestionContenidoModel = require('../models/gestionContenidos');
 const CategoriaModel = require('../models/categorias');
 const RelacionCategoriasContenidoModel = require('../models/relacionCategoriasContenido');
 const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
+const Categoria1Model = require('../models/categoria1');
 
 //sincronia
 const Usuario = UsuarioModel(sequelize, Sequelize);
@@ -61,6 +62,8 @@ const GestionContenido = GestionContenidoModel(sequelize, Sequelize);
 const Categoria = CategoriaModel(sequelize, Sequelize);
 const RelacionCategoriasContenido = RelacionCategoriasContenidoModel(sequelize, Sequelize);
 const ProgramacionPublicacion = ProgramacionPublicacionModel(sequelize, Sequelize);
+const Categoria1 = Categoria1Model(sequelize,Sequelize);
+
 
 //relacion Adivinanza-Categoria
 
@@ -96,6 +99,9 @@ RelacionCategoriasContenido.belongsTo(Categoria, { foreignKey: 'id_categoria' })
 
 GestionContenido.hasMany(ProgramacionPublicacion, { foreignKey: 'id_contenido' });
 ProgramacionPublicacion.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
+
+InformacionSeguridad.hasMany(Categoria1, { foreignKey: 'id_informacion_seguridad' });
+Categoria1.belongsTo(InformacionSeguridad, { foreignKey: 'id_informacion_seguridad' });
 
 Foro.belongsToMany(Categoria, {
     through: 'RelacionCategoriasContenido',
@@ -137,6 +143,7 @@ module.exports = {
     Categoria,
     RelacionCategoriasContenido,
     ProgramacionPublicacion,
+    Categoria1,
 
 };
 

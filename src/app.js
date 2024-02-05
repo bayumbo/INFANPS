@@ -97,6 +97,8 @@ const perfilesRoutes = require('./routes/perfilesRoutes');
 const programacionPublicacionRoutes = require('./routes/programacionPublicacionRoutes');
 const relacionCategoriasContenidoRoutes = require('./routes/relacionCategoriasContenidoRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
+const categoria1Routes = require('./routes/categoria1Routes');
+
 // Configurar rutas
 app.use(informacionSeguridadRoutes);
 app.use(gestionContenidosRoutes);
@@ -109,6 +111,7 @@ app.use(notificacionesRoutes);
 app.use(perfilesRoutes);
 app.use(programacionPublicacionRoutes);
 app.use(relacionCategoriasContenidoRoutes);
+app.use(categoria1Routes);
 
 // Iniciar el servidor
 app.listen(port, () => {

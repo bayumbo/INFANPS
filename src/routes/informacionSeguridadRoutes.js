@@ -11,4 +11,5 @@ router.get('/informacion-seguridad/:id', informacionSeguridadController.obtenerI
 router.put('/informacion-seguridad/:id', informacionSeguridadController.actualizarInformacionSeguridad);
 router.delete('/informacion-seguridad/:id', informacionSeguridadController.eliminarInformacionSeguridad);
 
+
 module.exports = router;
