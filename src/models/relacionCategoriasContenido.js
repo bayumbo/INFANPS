@@ -14,4 +14,4 @@ const RelacionCategoriasContenido = (sequelize, type) => {
     );
 };
 
-module.exports = RelacionCategoriasContenido;
+module.exports = RelacionCategoriasContenido; 
