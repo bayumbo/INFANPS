@@ -118,11 +118,11 @@ ActividadesInteractivas.belongsToMany(Categoria, {
     uniqueConstraint: {
         name: 'ActividadesInteractivas_Categoria_unique',
         message: 'La relación ya existe'
-    }
+    } 
 });
 
 InformacionSeguridad.belongsToMany(Categoria, {
-    through: 'RelacionCategoriasContenido',
+    through: 'RelacionCategoriasContenido', 
     foreignKey: 'id_contenido',
     uniqueConstraint: {
         name: 'InformacionSeguridad_Categoria_unique',
@@ -147,5 +147,3 @@ module.exports = {
 
 };
 
-// Exportar el objeto sequelize
-//module.exports = sequelize;

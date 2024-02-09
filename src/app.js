@@ -36,6 +36,10 @@ const handlebars = exphbs.create({
     partialsDir: path.join(__dirname, 'views', 'partials'),
     extname: '.hbs',
     helpers: require('./lib/handlebars'),
+    runtimeOptions: {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+    },
 });
 
 // Configurar motor de vistas
@@ -92,7 +96,6 @@ const actividadesInteractivasRoutes = require('./routes/actividadesInteractivasR
 const categoriasRoutes = require('./routes/categoriasRoutes');
 const forosRoutes = require('./routes/forosRoutes');
 const mensajesForoRoutes = require('./routes/mensajesForoRoutes');
-const notificacionesRoutes = require('./routes/notificacionesRoutes');
 const perfilesRoutes = require('./routes/perfilesRoutes');
 const programacionPublicacionRoutes = require('./routes/programacionPublicacionRoutes');
 const relacionCategoriasContenidoRoutes = require('./routes/relacionCategoriasContenidoRoutes');
@@ -107,7 +110,6 @@ app.use(actividadesInteractivasRoutes);
 app.use(categoriasRoutes);
 app.use(forosRoutes);
 app.use(mensajesForoRoutes);
-app.use(notificacionesRoutes);
 app.use(perfilesRoutes);
 app.use(programacionPublicacionRoutes);
 app.use(relacionCategoriasContenidoRoutes);
