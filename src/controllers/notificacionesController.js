@@ -1,71 +1,88 @@
-const { Notificaciones, Usuarios } = require('../models/notificaciones');
+const { Notificaciones } = require('../Database/dataBase.orm');
+const nodemailer = require('nodemailer');
+const { Usuario } = require('../Database/dataBase.orm'); 
 
-const obtenerNotificaciones = async(req, res) => {
+
+
+const enviarCorreoNotificacion = async (usuarioEmail, asunto, mensaje) => {
     try {
-        const notificaciones = await Notificaciones.findAll();
-        return res.json(notificaciones);
+        
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'bth4rts@gmail.com',
+                pass: 'kttvmaunbeovxzvt',
+            },
+        });
+
+        
+        const htmlMensaje = `
+            <html>
+                <head>
+                    <title>${asunto}</title>
+                </head>
+                <body>
+                    <h1>${asunto}</h1>
+                    <p>${mensaje}</p>
+                    <p>Gracias,</p>
+                    <p>INFANPS</p>
+                </body>
+            </html>
+        `;
+
+        // Configurar opciones del correo electrónico
+        const mailOptions = {
+            from: 'bth4rts@gmail.com',
+            to: usuarioEmail,
+            subject: asunto,
+            html: htmlMensaje,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error al enviar el correo:', error);
+            } else {
+                console.log('Correo enviado con éxito:', info.response);
+            }
+        });
+        // Enviar el correo electrónico
+        const info = await transporter.sendMail(mailOptions);
+
+        console.log('Correo electrónico enviado con éxito:', info);
+
+        return info;  // Devuelve la información del envío para su manejo
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener notificaciones' });
+        console.error('Error al enviar el correo electrónico:', error);
+        throw error; // Propaga el error para que pueda ser manejado en el controlador principal
     }
 };
 
-const crearNotificacion = async(req, res) => {
+const notificarCambio = async (req, res) => {
     try {
-        const nuevaNotificacion = await Notificaciones.create(req.body);
-        return res.json(nuevaNotificacion);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al crear notificación' });
-    }
-};
+        // Obtener el correo del usuario 
+        const usuario = await Usuario.findByPk(req.user.id);
 
-const obtenerNotificacionPorId = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const notificacion = await Notificaciones.findByPk(id);
-        if (!notificacion) {
-            return res.status(404).json({ mensaje: 'Notificación no encontrada' });
+        // Asunto y mensaje de la notificación
+        const asunto = 'Cambio en la página web';
+        const mensaje = 'Se ha realizado un cambio en la página web.';
+
+        // Enviar notificación por correo
+        const infoEnvio = await enviarCorreoNotificacion(usuario.email, asunto, mensaje);
+
+        // Verificar el resultado del envío
+        if (infoEnvio && infoEnvio.accepted.length > 0) {
+            console.log('Correo enviado a:', infoEnvio.accepted);
+            return res.json({ mensaje: 'Notificación enviada con éxito' });
+        } else {
+            console.error('Error al enviar el correo electrónico');
+            return res.status(500).json({ mensaje: 'Error al enviar la notificación por correo' });
         }
-        return res.json(notificacion);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener notificación por ID' });
+        return res.status(500).json({ mensaje: 'Error al enviar la notificación por correo' });
     }
 };
-
-const actualizarNotificacion = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const [filasActualizadas, [notificacionActualizada]] = await Notificaciones.update(req.body, { where: { id }, returning: true });
-        if (filasActualizadas === 0) {
-            return res.status(404).json({ mensaje: 'Notificación no encontrada' });
-        }
-        return res.json(notificacionActualizada);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar notificación' });
-    }
-};
-
-const eliminarNotificacion = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const filasEliminadas = await Notificaciones.destroy({ where: { id } });
-        if (filasEliminadas === 0) {
-            return res.status(404).json({ mensaje: 'Notificación no encontrada' });
-        }
-        return res.json({ mensaje: 'Notificación eliminada con éxito' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al eliminar notificación' });
-    }
-};
-
 module.exports = {
-    obtenerNotificaciones,
-    crearNotificacion,
-    obtenerNotificacionPorId,
-    actualizarNotificacion,
-    eliminarNotificacion,
+    notificarCambio,
+    enviarCorreoNotificacion,
 };
