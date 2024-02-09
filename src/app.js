@@ -36,6 +36,10 @@ const handlebars = exphbs.create({
     partialsDir: path.join(__dirname, 'views', 'partials'),
     extname: '.hbs',
     helpers: require('./lib/handlebars'),
+    runtimeOptions: {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+    },
 });
 
 // Configurar motor de vistas
