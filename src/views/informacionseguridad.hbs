@@ -1,54 +1,125 @@
-<!-- views/informacionSeguridad.hbs -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Información de Seguridad</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #94B8D0, #ffffff);
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif; /* Cambia la fuente según tus preferencias */
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #fff; /* Cambia el color del texto si es necesario */
+        }
+
+        .crear-contenido {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 70%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 50%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #94B8D0;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3F3F4B; /* Cambia el color al pasar el ratón si es necesario */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: linear-gradient(to bottom, #94B8D0, #ffffff);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            color: #06152B; /* Cambia el color del texto si es necesario */
+        }
+
+        a {
+            color: #3F3F4B; /* Cambia el color del enlace si es necesario */
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline; /* Cambia el estilo al pasar el ratón si es necesario */
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Gestión de Información de Seguridad</h1>
+    <h1>INFORMATE Y CREA</h1>
 
     <!-- Formulario para agregar nueva información de seguridad -->
-    <form action="/informacion-seguridad" method="POST">
+    <form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
         <label for="titulo">Título:</label>
         <input type="text" name="titulo" required>
-        <label for="contenido">Contenido:</label>
-        <textarea name="contenido" required></textarea>
+        <label for="contenido">Contenido:
+            <select name="contenido" required>
+                <option value="imagen">Imagen</option>
+                <option value="video">Video</option>
+                <option value="link">Link</option>
+                <option value="documento">Documento</option>
+            </select>
+            <input type="file" id="imagenInput">
+        </label>
         <label for="fecha_publicacion">Fecha de Publicación:</label>
         <input type="datetime-local" name="fecha_publicacion" required>
         <label for="id_autor">ID del Autor:</label>
         <input type="number" name="id_autor" required>
-        <!-- Puedes añadir más campos según sea necesario -->
+        <label for="Comentario">Escribe tu comentario:</label>
+        <textarea name="comentario" required></textarea>
 
+        <!-- Boton principal de envio de datos -->
         <button type="submit">Agregar Información de Seguridad</button>
     </form>
 
-    <hr>
-
-    <!-- Listado de información de seguridad existente -->
-    <table>
-
-        <tbody>
-            {{#each informacionSeguridads}}
-            <tr>
-                <td>{{id}}</td>
-                <td>{{titulo}}</td>
-                <td>{{contenido}}</td>
-                <td>{{fecha_publicacion}}</td>
-                <td>{{id_autor}}</td>
-                <td>
-                    <a href="/informacion-seguridad/{{id}}">Ver Detalles</a>
-                    <!-- Agrega más botones de acciones según tus necesidades -->
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    {{#each informacionSeguridad}}
+    <li>
+        <strong>{{titulo}}</strong> - <br>-<br> {{contenido}} {{comentario}} {{fecha_publicacion}}
+        {{id_autor}} {{ id_informacion_seguridad}}
+        <!-- Puedes mostrar otros campos según tus necesidades -->
+        <a href="/informacion-seguridad/editar/{{id}}">Editar</a>
+    </li>
+    {{/each}}
 
 </body>
 

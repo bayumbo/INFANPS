@@ -13,7 +13,11 @@ const InformacionSeguridad = (sequelize) => {
                 allowNull: true, // O false dependiendo de tus requisitos
             },
             contenido: {
-                type: DataTypes.TEXT,
+                type: DataTypes. TEXT  ,
+                allowNull: true, // O false dependiendo de tus requisitos
+            },
+            comentario: {
+                type: DataTypes. TEXT,
                 allowNull: true, // O false dependiendo de tus requisitos
             },
             fecha_publicacion: {
@@ -36,6 +40,7 @@ const InformacionSeguridad = (sequelize) => {
                     key: 'id', // Reemplazar con el nombre real de la clave primaria en la tabla de InformacionSeguridad
                 },
             },
+            
         }, {
             timestamps: false,
         }

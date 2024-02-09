@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Información de Seguridad</title>
+</head>
+<body>
+
+    <h1>EDITAR INFORMACIÓN DE SEGURIDAD</h1>
+
+    <form action="/informacion-seguridad/editar" method="post" class="editar-contenido">
+        <!-- Usamos un campo oculto para enviar el ID de la entrada que estamos editando -->
+        <input type="hidden" name="id" value="{{informacionSeguridadExistente.id}}">
+
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" value="{{informacionSeguridadExistente.titulo}}" required>
+
+        <label for="contenido">Contenido:</label>
+        <select name="contenido" required>
+            <option value="imagen" {{#if_eq informacionSeguridadExistente.contenido 'imagen'}}selected{{/if_eq}}>Imagen</option>
+            <option value="video" {{#if_eq informacionSeguridadExistente.contenido 'video'}}selected{{/if_eq}}>Video</option>
+            <option value="link" {{#if_eq informacionSeguridadExistente.contenido 'link'}}selected{{/if_eq}}>Link</option>
+            <option value="documento" {{#if_eq informacionSeguridadExistente.contenido 'documento'}}selected{{/if_eq}}>Documento</option>
+        </select>
+
+        <!-- Puedes añadir otros campos aquí según tus necesidades -->
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+</body>
+</html>
