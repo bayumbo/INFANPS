@@ -13,4 +13,5 @@ router.delete('/informacion-seguridad/:id', informacionSeguridadController.elimi
 
 
 
+
 module.exports = router;

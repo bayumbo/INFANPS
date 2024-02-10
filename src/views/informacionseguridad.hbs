@@ -13,28 +13,28 @@
     <h1>INFORMATE Y CREA</h1>
 
     <!-- Formulario para agregar nueva información de seguridad -->
-    <form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
-        <label for="titulo">Título:</label>
-        <input type="text" name="titulo" required>
-        <label for="contenido">Contenido:
-            <select name="contenido" required>
-                <option value="imagen">Imagen</option>
-                <option value="video">Video</option>
-                <option value="link">Link</option>
-                <option value="documento">Documento</option>
-            </select>
-            <input type="file" id="imagenInput">
-        </label>
-        <label for="fecha_publicacion">Fecha de Publicación:</label>
-        <input type="datetime-local" name="fecha_publicacion" required>
-        <label for="id_autor">ID del Autor:</label>
-        <input type="number" name="id_autor" required>
-        <label for="Comentario">Escribe tu comentario:</label>
-        <textarea name="comentario" required></textarea>
+<form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
+    <label for="titulo">Título:</label>
+    <input type="text" name="titulo" required>
+    <label for="contenido">Tipo de Contenido:</label>
+    <select name="contenido" id="tipoContenido" required>
+        <option value="imagen">Imagen</option>
+        <option value="video" selected>Video</option>
+        <option value="link">Link</option>
+        <option value="documento">Documento</option>
+    </select>
+    <input type="file" id="archivoInput" accept="*/*" required >
+    <label for="fecha_publicacion">Fecha de Publicación:</label>
+    <input type="datetime-local" name="fecha_publicacion" required>
+    <label for="id_autor">ID del Autor:</label>
+    <input type="number" name="id_autor" required>
+    <label for="Comentario">Escribe tu comentario:</label>
+    <textarea name="comentario" required></textarea>
 
-        <!-- Boton principal de envio de datos -->
-        <button type="submit">Agregar Información de Seguridad</button>
-    </form>
+    <!-- Boton principal de envio de datos -->
+    <button type="submit">Agregar Información de Seguridad</button>
+</form>
+
 
     {{#each informacionSeguridad}}
     <li>

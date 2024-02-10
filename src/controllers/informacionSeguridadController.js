@@ -1,5 +1,5 @@
-const { InformacionSeguridad, Usuarios } = require('../Database/dataBase.orm');
-
+const { InformacionSeguridad, Usuario } = require('../Database/dataBase.orm');
+const {enviarCorreoNotificacion} = require ('../controllers/notificacionesController');
 const obtenerInformacionSeguridad = async (req, res) => {
     try {
         const informacionSeguridad = await InformacionSeguridad.findAll();
@@ -13,14 +13,47 @@ const obtenerInformacionSeguridad = async (req, res) => {
 
 const crearInformacionSeguridad = async (req, res) => {
     try {
-        const informacionSeguridad = await InformacionSeguridad.create(req.body);
+        const { id, titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
+
+        // Crear un nuevo foro
+        const nuevaInformacionSeguridad = await InformacionSeguridad.create({
+            titulo,
+            contenido, 
+            comentario,
+            fecha_publicacion,
+            id_autor,
+        });
+
+        const usuario = await Usuario.findByPk(id_autor);
+
+        // Verificar si se encontró el usuario
+        if (!usuario) {
+            console.error('Usuario no encontrado');
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
+
+        // Acceder al correo electrónico del usuario
+        const correoUsuario = usuario.correo;
+
+        // Verificar si el usuario tiene un correo electrónico
+        if (!correoUsuario) {
+            console.error('Usuario sin dirección de correo electrónico');
+            return res.status(500).json({ mensaje: 'Usuario sin dirección de correo electrónico' });
+        }
+
+        // Asunto y mensaje de la notificación
+        const asunto = 'Nueva información creada';
+        const mensaje = `Se ha creado una nueva información: ${titulo}`;
+
+        // Enviar notificación por correo
+        await enviarCorreoNotificacion(usuario.correo, asunto, mensaje);
+        
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al crear información de seguridad' });
     }
 };
-
 const obtenerInformacionSeguridadPorId = async (req, res) => {
     const { id } = req.params;
     try {

@@ -13,7 +13,7 @@ const InformacionSeguridad = (sequelize) => {
                 allowNull: true, // O false dependiendo de tus requisitos
             },
             contenido: {
-                type: DataTypes. TEXT  ,
+                type: DataTypes.STRING(255)  ,
                 allowNull: true, // O false dependiendo de tus requisitos
             },
             comentario: {
