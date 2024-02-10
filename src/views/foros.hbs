@@ -1,65 +1,152 @@
 <!-- Corrección en tu archivo foros.hbs -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua/C0jPIh4aCeX1c1l0pC6OgZD25AdeG5WxVPCsP/Q3lgNG3cOj98FuVX" crossorigin="anonymous">
+<form action=""></form>
+ <h1 class="titulo">Crear Nuevo Foro</h1>
+ <br>
 
-<h2>Crear Nuevo Foro</h2>
 <form action="/foros/crear" method="post">
-    <label for="titulo">Título del Foro:</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" required></textarea>
-    <label for="campoAdicional">Campo Adicional:</label>
-    <input type="text" id="campoAdicional" name="campoAdicional" required>
+
+<div class="button-container">
+  <label class="input-label" for="titulo">Título del Foro:</label>
+  <input type="text" id="titulo" name="titulo" class="styled-input" required>
+
+  <label class="input-label" for="descripcion">Descripción:</label>
+  <textarea id="descripcion" name="descripcion" class="styled-input" required></textarea>
+
+  <label class="input-label" for="campoAdicional">Campo Adicional:</label>
+  <input type="text" id="campoAdicional" name="campoAdicional" class="styled-input" required>
+</div> <br>
     <input type="hidden" name="id_creador" value="1"> <!-- Agrega el id_creador como un valor constante o dinámico -->
     <div>
-    <button type="submit">+ Añadir Discusión </button>
+    <button type="submit" class="añadir-discusion-btn">+ Añadir Discusión </button>
     </div>
 </form>
-
-
-{{#each foros}}
-  <div class="seccion">
-  <div class="contenido">
-    <h2>{{titulo}}</h2>
-    <p>{{descripcion}}</p>
-  </div>
-    <!-- Formulario para editar el foro -->
-    <div class="botones">
-    <form action="/foros/editar/{{this.id}}" method="put">
-      <button type="submit" id="editar">Editar</button>
-    </form>
-    <!-- Formulario para eliminar el foro -->
-    <form action="/foros/eliminar/{{id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
-      <button type="submit" id="eliminar">Eliminar</button>
-    </form>
+{{#each foros index=index}}
+  <div class="seccion seccion{{index}}">
+    <div class="contenido">
+      <h2>{{titulo}}</h2>
+      <p>{{descripcion}}</p>
     </div>
+    <div class="botones">
+      <form action="/foros/editar/{{this.id}}" method="put">
+        <button type="submit" id="editar">Editar</button>
+      </form>
+      <br>
+      <form action="/foros/eliminar/{{id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
+        <button type="submit" id="eliminar">Eliminar</button>
+      </form>
+    </div>
+  </div>
   </div>
 {{/each}}
 
+
 <style>
-.seccion{
-  width: 800px;
-  height: 100px;
-  background: rgb(162, 255, 255);
-  color: rgb(22, 39, 54);
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D6EADF;
+  padding: 3px;
 }
+
+.input-label {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+
+.styled-input {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.styled-input:hover,
+.styled-input:focus {
+  border-color: #4CAF50;
+}
+
+.styled-input {
+  transition: border-color 0.3s ease;
+}
+
+
+
+
+
+body {
+   background: linear-gradient(to right, #B7E0D2, #ffffff);  
+   margin: 20px;
+   overflow: hidden;
+  font-family: Arial, sans-serif;
+
+            }
+.seccion{
+ 
+    width: 100%;
+  height: 100px;
+  background: linear-gradient(to right, #809CCE, #ffffff); 
+  color: black;
+  border-radius: 10px;
+}
+
+ .titulo {
+                color: #ffffff;
+                margin: 0;
+                font-size: 24px;
+                background: #94B8D0;
+                text-align: center;
+                border-radius: 10px;
+                font-size: 20px;
+            }
+            
+            .añadir-discusion-btn {
+  padding: 10px 20px; /* Ajusta el espaciado interno del botón */
+  font-size: 13px; /* Ajusta el tamaño del texto */
+  background-color: #B7E0D2; /* Color de fondo verde */
+  color: black; /* Color del texto blanco */
+  border: none; /* Elimina el borde del botón */
+  border-radius: 10px; /* Agrega bordes redondeados al botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+.añadir-discusion-btn:hover {
+  background-color: #D6EADF; /* Cambia el color de fondo al pasar sobre el botón */
+}
+
 h2{
-  background: rgb(155, 195, 255);
+
+    background: #94B8D0;
+  border-radius: 10px;
+
 }
 .botones{
-  float: right;
+  
+   float: right;
   margin-top: -50px;
+  text-align: center; 
   
 }
 
 #editar, #eliminar {
   width: 100px;
   background: rgb(142, 169, 228);
+   border-radius: 10px;
 }
 #editar:hover{
-  background: aqua;
+  background: #94B8D0;
+  border-radius: 10px;
 }
 #eliminar:hover{
-  background: aqua;
+  background: #94B8D0  ;
+   border-radius: 10px;
+
+
 }
 
-</style>
+ </style>
