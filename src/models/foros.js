@@ -7,7 +7,7 @@ const Foro = (sequelize, type) => {
                 autoIncrement: true,
             },
             titulo: type.STRING(255),
-            descripcion: type.TEXT,
+            contenido: type.TEXT,
             id_creador: type.INTEGER,
             fecha_creacion: {
                 type: "TIMESTAMP",
