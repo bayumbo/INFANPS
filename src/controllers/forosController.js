@@ -15,12 +15,12 @@ const obtenerForos = async (req, res) => {
 const crearForo = async (req, res) => {
     try {
         
-        const { titulo, descripcion, campoAdicional, id_creador } = req.body;
+        const { titulo, contenido, campoAdicional, id_creador } = req.body;
 
         // Crear un nuevo foro
         const nuevoForo = await Foro.create({
             titulo,
-            descripcion, 
+            contenido, 
             campoAdicional, // Nuevo campo
             id_creador,
         });
@@ -97,17 +97,19 @@ const actualizarForo = async (req, res) => {
         return res.status(500).json({ mensaje: 'Error al actualizar foro' });
     }
 };
-const eliminarForo = async(req, res) => {
+const eliminarForo = async (req, res) => {
     const { id } = req.params;
     try {
-        const filasEliminadas = await Foros.destroy({ where: { id } });
+        
+        const filasEliminadas = await Foro.destroy({ where: { id } });
         if (filasEliminadas === 0) {
             return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-        return res.json({ mensaje: 'Foro eliminado con éxito' });
+        return res.redirect('/foros');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al eliminar foro' });
+        
     }
 };
 

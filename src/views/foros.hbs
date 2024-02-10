@@ -1,12 +1,12 @@
 <!-- Corrección en tu archivo foros.hbs -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua/C0jPIh4aCeX1c1l0pC6OgZD25AdeG5WxVPCsP/Q3lgNG3cOj98FuVX" crossorigin="anonymous">
 <form action=""></form>
- <h1 class="titulo">Crear Nuevo Foros</h1>
+ <h1 class="titulo">Crear Nueva Actividad</h1>
  <br>
 
-<h2>Crear Foro</h2>
+<h2>Crear Nueva Actividad</h2>
 <form action="/foros/crear" method="post">
-    <label for="titulo">Título del Foro:</label>
+    <label for="titulo">Título de la Actividad:</label>
     <input type="text" id="titulo" name="titulo" required>
     <label for="descripcion">Descripción:</label>
     <textarea id="descripcion" name="descripcion" required></textarea>
@@ -14,7 +14,7 @@
     <input type="text" id="campoAdicional" name="campoAdicional" required>
     <input type="hidden" name="id_creador" value="1"> <!-- Agrega el id_creador como un valor constante o dinámico -->
     <div>
-    <button type="submit">+ Añadir Nueva Discusion</button>
+    <button type="submit">+ Añadir Actividad </button>
     </div>
 </form>
 {{#each foros index=index}}
@@ -28,7 +28,7 @@
       <button type="submit" id="editar" >Editar</button>
     </form>
     <!-- Formulario para eliminar el foro -->
-    <form action="/foros/eliminar/{{id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
+    <form action="/foros/eliminar/{{this.id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
       <button type="submit" id="eliminar" >Eliminar</button>
     </form>
     </div>
@@ -78,6 +78,7 @@
 body {
    background: linear-gradient(to right, #B7E0D2, #ffffff);  
    margin: 40px;
+   
   font-family: Arial, sans-serif;
 
             }

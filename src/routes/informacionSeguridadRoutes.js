@@ -9,7 +9,8 @@ router.get('/informacion-seguridad', informacionSeguridadController.obtenerInfor
 router.post('/informacion-seguridad/crear', informacionSeguridadController.crearInformacionSeguridad);
 router.get('/informacion-seguridad/editar/:id', informacionSeguridadController.obtenerInformacionSeguridadPorId);
 router.put('/informacion-seguridad/editar/:id', informacionSeguridadController.actualizarInformacionSeguridad);
-router.delete('/informacion-seguridad/:id', informacionSeguridadController.eliminarInformacionSeguridad);
+router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
+router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
 
 
 
