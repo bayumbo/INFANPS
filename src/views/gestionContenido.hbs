@@ -38,17 +38,25 @@
     <hr>
 
     <!-- Listado de contenidos existentes -->
-    <ul>
-        {{#each gestionContenidos}}
-        <li>
-            <h3>{{titulo}}</h3>
-            <p>{{contenido}}</p>
-            <p>Categoría: {{categoria}}</p>
-            <p>Fecha de Publicación: {{fecha_publicacion}}</p>
-            <a href="/gestion-contenidos/{{id}}">Ver Detalles</a>
-        </li>
-        {{/each}}
-    </ul>
+{{#each gestionContenido index=index}}
+  <div class="seccion seccion{{index}}">
+    <div class="contenido">
+      <h2>{{titulo}}</h2>
+      <p>{{contenido}}</p>
+    </div>
+    <div class="botones">
+    <form action="/foros/editar/{{this.id}}" method="put">
+      <button type="submit" id="editar" >Editar</button>
+    </form>
+    <!-- Formulario para eliminar el foro -->
+    <form action="/foros/eliminar/{{id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
+      <button type="submit" id="eliminar" >Eliminar</button>
+    </form>
+    </div>
+  </div>
+  </div>
+{{/each}}
+
 
 </body>
 
