@@ -4,7 +4,7 @@ const {enviarCorreoNotificacion} = require ('../controllers/notificacionesContro
 
 const obtenerInformacionSeguridad = async (req, res) => {
     try {
-        const informacionSeguridad = await InformacionSeguridad.findAll();
+        const informacionSeguridad = await orm.InformacionSeguridad.findAll();
         return res.render('informacionSeguridad', { informacionSeguridad });
     } catch (error) {
         console.error(error);
@@ -18,7 +18,7 @@ const crearInformacionSeguridad = async (req, res) => {
         const {  titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
 
         // Crear un nuevo foro
-        const nuevaInformacionSeguridad = await InformacionSeguridad.create({
+        const nuevaInformacionSeguridad = await orm.InformacionSeguridad.create({
             titulo,
             contenido, 
             comentario,
@@ -26,7 +26,7 @@ const crearInformacionSeguridad = async (req, res) => {
             id_autor,
         });
 
-        const usuario = await Usuario.findByPk(id_autor);
+        const usuario = await orm.InformacionSeguridad.findByPk(id_autor);
 
         // Verificar si se encontró el usuario
         if (!usuario) {
