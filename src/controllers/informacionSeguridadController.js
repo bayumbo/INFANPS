@@ -1,4 +1,4 @@
-const { InformacionSeguridad, Usuario } = require('../Database/dataBase.orm');
+const orm = require('../Database/dataBase.orm');
 const {enviarCorreoNotificacion} = require ('../controllers/notificacionesController');
 
 
@@ -15,7 +15,7 @@ const obtenerInformacionSeguridad = async (req, res) => {
 
 const crearInformacionSeguridad = async (req, res) => {
     try {
-        const { id, titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
+        const {  titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
 
         // Crear un nuevo foro
         const nuevaInformacionSeguridad = await InformacionSeguridad.create({
@@ -59,7 +59,7 @@ const crearInformacionSeguridad = async (req, res) => {
 const obtenerInformacionSeguridadPorId = async (req, res) => {
     try {
         const { id } = req.params;
-        const informacionSeguridad = await InformacionSeguridad.findByPk(id);
+        const informacionSeguridad = await orm.InformacionSeguridad.findByPk(id);
         if (!informacionSeguridad) {
             return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
         }
@@ -73,21 +73,22 @@ const obtenerInformacionSeguridadPorId = async (req, res) => {
 
 
 const actualizarInformacionSeguridad = async (req, res) => {
-    try {
-        const { id } = req.params;
-        // Buscar la información de seguridad a actualizar en la base de datos
-        const informacionSeguridad = await InformacionSeguridad.findByPk(id);
-        if (!informacionSeguridad) {
-            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
-        }
-        // Actualizar los campos de la información de seguridad con los datos enviados en la solicitud
-        await informacionSeguridad.update(req.body);
-        // Redirigir a la página de información de seguridad después de la actualización
-        return res.redirect('/informacion-seguridad');
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar la información de seguridad' });
+    const id = req.params.id
+    const ids = req.user.id
+    const {titulo, contenido, comentario, fecha_publicacion}= req.body
+    const nuevo = {
+        titulo,
+        contenido,
+        comentario,
+        fecha_publicacion,
+        id_autor: ids,
     }
+    await orm.InformacionSeguridad.findOne({where: {id:id}})
+    .then((anyname)=>{
+        anyname.update(nuevo)
+        req.redirect('/informacion-seguridad')
+    })
+
 };
 
 const eliminarInformacionSeguridad = async (req, res) => {

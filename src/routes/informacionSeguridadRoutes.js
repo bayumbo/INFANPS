@@ -8,7 +8,7 @@ const informacionSeguridadController = require('../controllers/informacionSeguri
 router.get('/informacion-seguridad', informacionSeguridadController.obtenerInformacionSeguridad);
 router.post('/informacion-seguridad/crear', informacionSeguridadController.crearInformacionSeguridad);
 router.get('/informacion-seguridad/editar/:id', informacionSeguridadController.obtenerInformacionSeguridadPorId);
-router.put('/informacion-seguridad/editar/:id', informacionSeguridadController.actualizarInformacionSeguridad);
+router.post('/informacion-seguridad/editar/:id', informacionSeguridadController.actualizarInformacionSeguridad);
 router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
 router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
 

@@ -21,11 +21,8 @@ registerCtl.register = passport.authenticate("local.signup", {
 
 registerCtl.showLogin = async (req, res) => {
     try {
-        const ids = req.params.id;
-        const Usuario = await sql.query('select * from users where idUsers = ?', [ids]);
-        const username = await descifrarDatos(Usuario[0].usernameUser);
-        Usuario[0].usernameUser = username;
-        res.render('login/Login', { Usuario });
+        
+        res.render('login');
     } catch (error) {
         // Manejo de errores
         console.error(error);
