@@ -1,5 +1,7 @@
 const { InformacionSeguridad, Usuario } = require('../Database/dataBase.orm');
 const {enviarCorreoNotificacion} = require ('../controllers/notificacionesController');
+
+
 const obtenerInformacionSeguridad = async (req, res) => {
     try {
         const informacionSeguridad = await InformacionSeguridad.findAll();
@@ -55,36 +57,36 @@ const crearInformacionSeguridad = async (req, res) => {
     }
 };
 const obtenerInformacionSeguridadPorId = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
         const informacionSeguridad = await InformacionSeguridad.findByPk(id);
         if (!informacionSeguridad) {
             return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
         }
-        return res.render('detalleInformacionSeguridad', { informacionSeguridad });
+        // Renderizar la vista de edición con los datos de la información de seguridad
+        res.render('editarInformacionSeguridad', { informacionSeguridad });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener información de seguridad por ID' });
+        return res.status(500).json({ mensaje: 'Error al obtener la información de seguridad para editar' });
     }
 };
 
 
 const actualizarInformacionSeguridad = async (req, res) => {
-    const { id } = req.params; // Obtener el ID desde los parámetros de la URL
     try {
-        // Actualizar la información de seguridad en la base de datos
-        const [filasActualizadas, [informacionSeguridadActualizada]] = await InformacionSeguridad.update(req.body, { where: { id }, returning: true });
-
-        // Verificar si se actualizó alguna fila
-        if (filasActualizadas === 0) {
+        const { id } = req.params;
+        // Buscar la información de seguridad a actualizar en la base de datos
+        const informacionSeguridad = await InformacionSeguridad.findByPk(id);
+        if (!informacionSeguridad) {
             return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
         }
-
-        // Redirigir a la pantalla principal o a la entrada actualizada
+        // Actualizar los campos de la información de seguridad con los datos enviados en la solicitud
+        await informacionSeguridad.update(req.body);
+        // Redirigir a la página de información de seguridad después de la actualización
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar información de seguridad' });
+        return res.status(500).json({ mensaje: 'Error al actualizar la información de seguridad' });
     }
 };
 

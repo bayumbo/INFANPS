@@ -7,8 +7,8 @@ const informacionSeguridadController = require('../controllers/informacionSeguri
 // Definir rutas para información de seguridad
 router.get('/informacion-seguridad', informacionSeguridadController.obtenerInformacionSeguridad);
 router.post('/informacion-seguridad/crear', informacionSeguridadController.crearInformacionSeguridad);
-router.get('/informacion-seguridad/:id', informacionSeguridadController.obtenerInformacionSeguridadPorId);
-router.put('/informacion-seguridad/:id', informacionSeguridadController.actualizarInformacionSeguridad);
+router.get('/informacion-seguridad/editar/:id', informacionSeguridadController.obtenerInformacionSeguridadPorId);
+router.put('/informacion-seguridad/editar/:id', informacionSeguridadController.actualizarInformacionSeguridad);
 router.delete('/informacion-seguridad/:id', informacionSeguridadController.eliminarInformacionSeguridad);
 
 
