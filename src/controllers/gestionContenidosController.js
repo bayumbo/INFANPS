@@ -26,26 +26,35 @@ const obtenerGestionContenido = async(req, res) => {
 
 const crearGestionContenido = async(req, res) => {
     try {
-        const { titulo, contenido, categoria } = req.body;
+        const { titulo, contenido, categoria, fechaPublicacion } = req.body;
+        let archivoMultimedia;
+
+        // Verificar si se ha subido un archivo multimedia
+        if (req.file) {
+            archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
+        }
 
         // Obtener el modelo de la categoría
         const categoriaModel = obtenerModeloCategoria(categoria);
 
         // Crear el contenido en GestionContenido
-        const nuevoContenido = await GestionContenido.create({ titulo, contenido });
+        const nuevoContenido = await GestionContenido.create({
+            titulo,
+            contenido,
+            archivo_multimedia: archivoMultimedia,
+            fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
+        });
+
+        // Crear el contenido en la tabla de la categoría correspondiente
+        await categoriaModel.create({
+            ...nuevoContenido.dataValues // Se pasan todos los campos y sus valores
+        });
 
         // Crear la relación en RelacionCategoriasContenido
         await RelacionCategoriasContenido.create({
             id_contenido: nuevoContenido.id_contenido,
             id_categoria: categoriaModel.id_categoria,
         });
-        if (categoriaModel === Foro) {
-            await Foro.create({ id: nuevoContenido.id, /* otros campos de Foro */ });
-        } else if (categoriaModel === ActividadesInteractivas) {
-            await ActividadesInteractivas.create({ id: nuevoContenido.id, /* otros campos de ActividadesInteractivas */ });
-        } else if (categoriaModel === InformacionSeguridad) {
-            await InformacionSeguridad.create({ id: nuevoContenido.id, /* otros campos de InformacionSeguridad */ });
-        }
 
         return res.redirect('/gestion-contenidos');
     } catch (error) {
@@ -53,6 +62,8 @@ const crearGestionContenido = async(req, res) => {
         return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
     }
 };
+
+
 const obtenerGestionContenidoPorId = async(req, res) => {
     try {
         const { id } = req.params;

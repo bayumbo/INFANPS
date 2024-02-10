@@ -37,10 +37,15 @@ const obtenerInformacionSeguridadPorId = async (req, res) => {
 
 
 const actualizarInformacionSeguridad = async (req, res) => {
-    const { id } = req.body; // Asegúrate de enviar el ID desde el formulario de edición
+    const { id } = req.params; // Obtener el ID desde los parámetros de la URL
     try {
         // Actualizar la información de seguridad en la base de datos
         const [filasActualizadas, [informacionSeguridadActualizada]] = await InformacionSeguridad.update(req.body, { where: { id }, returning: true });
+
+        // Verificar si se actualizó alguna fila
+        if (filasActualizadas === 0) {
+            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
+        }
 
         // Redirigir a la pantalla principal o a la entrada actualizada
         return res.redirect('/informacion-seguridad');

@@ -43,8 +43,6 @@ const crearForo = async (req, res) => {
             return res.status(500).json({ mensaje: 'Usuario sin dirección de correo electrónico' });
         }
 
-        
-
         // Asunto y mensaje de la notificación
         const asunto = 'Nuevo foro creado';
         const mensaje = `Se ha creado un nuevo foro: ${titulo}`;
