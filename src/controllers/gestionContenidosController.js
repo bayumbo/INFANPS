@@ -16,8 +16,8 @@ const obtenerModeloCategoria = (categoria) => {
 
 const obtenerGestionContenido = async(req, res) => {
     try {
-        const gestionContenidos = await GestionContenido.findAll();
-        return res.render('gestionContenido', { gestionContenidos });
+        const gestionContenido = await GestionContenido.findAll();
+        return res.render('gestionContenido', { gestionContenido });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al obtener gestión de contenidos' });
