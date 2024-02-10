@@ -5,13 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Información de Seguridad</title>
-    
 </head>
 
 <body>
-
-    <h1>INFORMATE Y CREA</h1>
-
     <!-- Formulario para agregar nueva información de seguridad -->
 <form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
     <label for="titulo">Título:</label>
@@ -45,11 +41,16 @@
     </li>
     {{/each}}
 
-    
+    </div>
+    </div>
 
+    <div class="cuadro-gris">
+        <a href="https://youtu.be/4cKb-8LxCrE?feature=shared" class="link-youtube" target="_blank">Enlace a YouTube</a>
+    </div>
 </body>
 
 </html>
+
 
 <style>
         body {
@@ -90,41 +91,90 @@
             border-radius: 4px;
         }
 
-        button {
-            background-color: #94B8D0;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .boton {
+        background-color: #ffffff;
+        border: none;
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
 
-        button:hover {
-            background-color: #3F3F4B; /* Cambia el color al pasar el ratón si es necesario */
-        }
+    .boton:hover {
+        background-color: #94B8D0;
+    }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    /* barra informate y crea*/
+    .barra {
+        background: #809CCE;
+        padding: 10px;
+        width: 30%;
+        margin: 10;
+        border-radius: 20px;
+        text-align: inherit;
 
-        li {
-            background: linear-gradient(to bottom, #94B8D0, #ffffff);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            color: #06152B; /* Cambia el color del texto si es necesario */
-        }
+    }
 
-        a {
-            color: #3F3F4B; /* Cambia el color del enlace si es necesario */
-            text-decoration: none;
-            margin-left: 10px;
-        }
+    .titulo {
+        color: #FFECEC;
+        margin: 0;
+        font-size: 24px;
+        /* Puedes ajustar el tamaño del texto */
+    }
 
-        a:hover {
-            text-decoration: underline; /* Cambia el estilo al pasar el ratón si es necesario */
-        }
-    </style>
+
+
+    /* estilo para  comentario */
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 20px;
+    }
+
+
+    .cuadro-azul {
+
+        background: linear-gradient(80.17deg, #94B8D0 7.38%, #3F3F4B 92.62%);
+        padding: 10px;
+        border-radius: 10px;
+        height: 150px;
+        right: 50%;
+        width: 400px;
+        position: fixed;
+        left: 800px;
+        top: 450px;
+
+    }
+
+    .cuadro-blanco {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        width: 350px;
+        height: 200 px;
+        position: relative;
+
+    }
+
+    textarea {
+        right: 300 80%;
+
+        width: 5000.100px;
+        height: 80.48px;
+    }
+
+    /* Estilos de etiquetas y campos del formulario */
+    label {
+        display: block;
+        margin: 10px 0;
+        left: 20px;
+    }
+</style>
+</head>
+</body>

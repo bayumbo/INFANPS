@@ -62,7 +62,7 @@ const GestionContenido = GestionContenidoModel(sequelize, Sequelize);
 const Categoria = CategoriaModel(sequelize, Sequelize);
 const RelacionCategoriasContenido = RelacionCategoriasContenidoModel(sequelize, Sequelize);
 const ProgramacionPublicacion = ProgramacionPublicacionModel(sequelize, Sequelize);
-const Categoria1 = Categoria1Model(sequelize,Sequelize);
+const Categoria1 = Categoria1Model(sequelize, Sequelize);
 
 
 //relacion Adivinanza-Categoria
@@ -105,29 +105,23 @@ Categoria1.belongsTo(InformacionSeguridad, { foreignKey: 'id_informacion_segurid
 
 Foro.belongsToMany(Categoria, {
     through: 'RelacionCategoriasContenido',
-    foreignKey: 'id_contenido',
-    uniqueConstraint: {
-        name: 'Foro_Categoria_unique',
-        message: 'La relación ya existe'
-    }
+    foreignKey: 'id_foro',
+    otherKey: 'id_categoria',
+    uniqueKey: 'forocategoria'
 });
 
 ActividadesInteractivas.belongsToMany(Categoria, {
     through: 'RelacionCategoriasContenido',
-    foreignKey: 'id_contenido',
-    uniqueConstraint: {
-        name: 'ActividadesInteractivas_Categoria_unique',
-        message: 'La relación ya existe'
-    } 
+    foreignKey: 'id_actividad_interactiva',
+    otherKey: 'id_categoria',
+    uniqueKey: 'actividadescategoria'
 });
 
 InformacionSeguridad.belongsToMany(Categoria, {
-    through: 'RelacionCategoriasContenido', 
-    foreignKey: 'id_contenido',
-    uniqueConstraint: {
-        name: 'InformacionSeguridad_Categoria_unique',
-        message: 'La relación ya existe'
-    }
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_informacion_seguridad',
+    otherKey: 'id_categoria',
+    uniqueKey: 'informacioncategoria'
 });
 
 
@@ -146,4 +140,3 @@ module.exports = {
     Categoria1,
 
 };
-
