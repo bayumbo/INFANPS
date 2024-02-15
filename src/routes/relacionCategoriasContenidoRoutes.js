@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const relacionCategoriasContenidoController = require('../controllers/relacionCategoriasContenidoController');
+const relacionCategoriasContenidoController = require('../controllers/relacionCategoriasContenidoController')
 
 // Ruta para obtener todas las relaciones categorías-contenido
 router.get('/relacion-categorias-contenido', relacionCategoriasContenidoController.obtenerRelacionCategoriasContenido);

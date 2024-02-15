@@ -9,7 +9,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const bodyparser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const helmet = require('helmet');
-const mainController = require('./main.controller');
+
 // Importar módulos locales
 const { MYSQLHOST, MYSQLUSER, MYSQLPASSWORD, MYSQLDATABASE, MYSQLPORT } = require('./keys');
 require('./lib/passport');
@@ -36,6 +36,10 @@ const handlebars = exphbs.create({
     partialsDir: path.join(__dirname, 'views', 'partials'),
     extname: '.hbs',
     helpers: require('./lib/handlebars'),
+    runtimeOptions: {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+    },
 });
 
 // Configurar motor de vistas
@@ -65,7 +69,6 @@ app.use(
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.get('/', mainController.getIndex);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
@@ -93,11 +96,12 @@ const actividadesInteractivasRoutes = require('./routes/actividadesInteractivasR
 const categoriasRoutes = require('./routes/categoriasRoutes');
 const forosRoutes = require('./routes/forosRoutes');
 const mensajesForoRoutes = require('./routes/mensajesForoRoutes');
-const notificacionesRoutes = require('./routes/notificacionesRoutes');
 const perfilesRoutes = require('./routes/perfilesRoutes');
 const programacionPublicacionRoutes = require('./routes/programacionPublicacionRoutes');
 const relacionCategoriasContenidoRoutes = require('./routes/relacionCategoriasContenidoRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
+const categoria1Routes = require('./routes/categoria1Routes');
+
 // Configurar rutas
 app.use(informacionSeguridadRoutes);
 app.use(gestionContenidosRoutes);
@@ -106,10 +110,10 @@ app.use(actividadesInteractivasRoutes);
 app.use(categoriasRoutes);
 app.use(forosRoutes);
 app.use(mensajesForoRoutes);
-app.use(notificacionesRoutes);
 app.use(perfilesRoutes);
 app.use(programacionPublicacionRoutes);
 app.use(relacionCategoriasContenidoRoutes);
+app.use(categoria1Routes);
 
 // Iniciar el servidor
 app.listen(port, () => {

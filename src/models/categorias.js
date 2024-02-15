@@ -1,16 +1,16 @@
-const Categoria = (sequelize, type) => {
+const Categorias = (sequelize, type) => {
     return sequelize.define(
-        "Categoria", {
-            id: {
+        'Categoria', {
+            id_categoria: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            nombre: type.STRING(50),
+            nombre: type.STRING,
         }, {
             timestamps: false,
         }
     );
 };
 
-module.exports = Categoria;
+module.exports = Categorias;

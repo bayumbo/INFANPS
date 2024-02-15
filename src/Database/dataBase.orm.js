@@ -37,10 +37,6 @@ sequelize.sync({ force: false })
     .catch((err) => {
         console.error("Error al sincronizar las tablas:", err.message);
     });
-
-
-const adivinanzaModel = require('../models/adivinanza')
-const categoriaModel = require('../models/categoria')
 const UsuarioModel = require('../models/usuarios');
 const PerfilModel = require('../models/perfiles');
 const InformacionSeguridadModel = require('../models/informacionSeguridad');
@@ -49,14 +45,12 @@ const ForoModel = require('../models/foros');
 const MensajesForoModel = require('../models/mensajesForos');
 const NotificacionModel = require('../models/notificaciones');
 const GestionContenidoModel = require('../models/gestionContenidos');
-const CategoriaModel = require('../models/categoria');
-const RelacionCategoriasContenidoModel = require('../models/categorias');
+const CategoriaModel = require('../models/categorias');
+const RelacionCategoriasContenidoModel = require('../models/relacionCategoriasContenido');
 const ProgramacionPublicacionModel = require('../models/programacionPublicacion');
+const Categoria1Model = require('../models/categoria1');
 
 //sincronia
-
-const adivinanza = adivinanzaModel(sequelize, Sequelize)
-const categoria = categoriaModel(sequelize, Sequelize)
 const Usuario = UsuarioModel(sequelize, Sequelize);
 const Perfil = PerfilModel(sequelize, Sequelize);
 const InformacionSeguridad = InformacionSeguridadModel(sequelize, Sequelize);
@@ -68,10 +62,11 @@ const GestionContenido = GestionContenidoModel(sequelize, Sequelize);
 const Categoria = CategoriaModel(sequelize, Sequelize);
 const RelacionCategoriasContenido = RelacionCategoriasContenidoModel(sequelize, Sequelize);
 const ProgramacionPublicacion = ProgramacionPublicacionModel(sequelize, Sequelize);
+const Categoria1 = Categoria1Model(sequelize, Sequelize);
+
 
 //relacion Adivinanza-Categoria
-categoria.hasMany(adivinanza)
-adivinanza.belongsTo(categoria)
+
 Usuario.hasOne(Perfil, { foreignKey: 'id_usuario' });
 Perfil.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
@@ -105,9 +100,32 @@ RelacionCategoriasContenido.belongsTo(Categoria, { foreignKey: 'id_categoria' })
 GestionContenido.hasMany(ProgramacionPublicacion, { foreignKey: 'id_contenido' });
 ProgramacionPublicacion.belongsTo(GestionContenido, { foreignKey: 'id_contenido' });
 
+InformacionSeguridad.hasMany(Categoria1, { foreignKey: 'id_informacion_seguridad' });
+Categoria1.belongsTo(InformacionSeguridad, { foreignKey: 'id_informacion_seguridad' });
+
+Foro.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_foro',
+    otherKey: 'id_categoria',
+    uniqueKey: 'forocategoria'
+});
+
+ActividadesInteractivas.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_actividad_interactiva',
+    otherKey: 'id_categoria',
+    uniqueKey: 'actividadescategoria'
+});
+
+InformacionSeguridad.belongsToMany(Categoria, {
+    through: 'RelacionCategoriasContenido',
+    foreignKey: 'id_informacion_seguridad',
+    otherKey: 'id_categoria',
+    uniqueKey: 'informacioncategoria'
+});
+
+
 module.exports = {
-    adivinanza,
-    categoria,
     Usuario,
     Perfil,
     InformacionSeguridad,
@@ -119,7 +137,6 @@ module.exports = {
     Categoria,
     RelacionCategoriasContenido,
     ProgramacionPublicacion,
-};
+    Categoria1,
 
-// Exportar el objeto sequelize
-module.exports = sequelize;
+};

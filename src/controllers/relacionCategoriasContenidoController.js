@@ -1,4 +1,4 @@
-const { RelacionCategoriasContenido, GestionContenidos, Categorias } = require('../models/relacionCategoriasContenido');
+const { RelacionCategoriasContenido, GestionContenidos, Categorias } = require('../Database/dataBase.orm');
 
 const obtenerRelacionCategoriasContenido = async(req, res) => {
     try {

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Seguridad</title>
+
+</head>
+
+<body>
+    <!-- Formulario para agregar nueva información de seguridad -->
+<form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
+    <label for="titulo">Título:</label>
+    <input type="text" name="titulo" required>
+    <label for="contenido">Tipo de Contenido:</label>
+    <select name="contenido" id="tipoContenido" required>
+        <option value="imagen">Imagen</option>
+        <option value="video" selected>Video</option>
+        <option value="link">Link</option>
+        <option value="documento">Documento</option>
+    </select>
+    <input type="file" id="archivoInput" accept="*/*" required >
+    <label for="fecha_publicacion">Fecha de Publicación:</label>
+    <input type="datetime-local" name="fecha_publicacion" required>
+    <label for="id_autor">ID del Autor:</label>
+    <input type="number" name="id_autor" required>
+    <label for="Comentario">Escribe tu comentario:</label>
+    <textarea name="comentario" required></textarea>
+
+    <!-- Boton principal de envio de datos -->
+    <button type="submit">Agregar Información de Seguridad</button>
+</form>
+
+
+    {{#each informacionSeguridad}}
+    <li>
+        <strong>{{titulo}}</strong> - <br>-<br> {{contenido}} {{comentario}} {{fecha_publicacion}}
+        {{id_autor}} {{ id_informacion_seguridad}}
+        <!-- Puedes mostrar otros campos según tus necesidades -->
+        <a href="/informacion-seguridad/editar/{{id}}">Editar</a>
+    </li>
+    {{/each}}
+    <form action="/informacion-seguridad/crear" method="POST" class="crear-contenido">
+        <br>
+        <br>
+
+        <div id="rectangle">
+            <div class="barra">
+            
+                <h1 class="titulo">INFORMATE Y CREA</h1>
+            </div>
+            <br><br>
+            <div class="barra-botones">
+                <button class="boton">CREA</button>
+                <button class="boton">INFORMA</button>
+                <button class="boton">EDUCATE</button>
+            </div> <br>
+
+            <div class="informacion-container">
+                <label for="titulo" class="button-simulado">Título:</label>
+                <input class="input-field" type="text" name="titulo" required>
+
+                <label for="contenido" class="button-simulado">Contenido:</label>
+                <select class="input-field" name="contenido" required>
+                    <option value="imagen">Imagen</option>
+                    <option value="video">Video</option>
+                    <option value="link">Link</option>
+                    <option value="documento">Documento</option>
+                </select>
+
+                <label for="imagenInput" class="button-simulado">Seleccionar archivo:</label>
+                <br>
+                <input class="input-field" type="file" id="imagenInput">
+
+                <label for="fecha_publicacion" class="button-simulado">Fecha de Publicación:</label>
+                <input class="input-field" type="datetime-local" name="fecha_publicacion" required>
+
+                <label for="id_autor" class="button-simulado">ID del Autor:</label>
+                <input class="input-field" type="number" name="id_autor" required>
+
+
+                <br>
+                <br>
+                <!-- div para comentario -->
+                <div class="contenedor-comentario">
+                    <div class="cuadro-azul">
+                        <div class="cuadro-blanco">
+                            <textarea name="comentario" required>ESCRIBE tu comentario:</textarea>
+                        </div>
+
+                        <!-- Boton principal de envio de datos -->
+                        <button type="submit">Agregar Información de Seguridad</button>
+                    </div>
+                </div>
+
+    </form>
+
+    <div class="cuadro-independiente">
+        {{#each informacionSeguridad}}
+        <li>
+            <strong>{{titulo}}</strong> - <br>-<br> {{contenido}} {{comentario}} {{fecha_publicacion}}
+            {{id_autor}} {{id_informacion_seguridad}}
+        </li>
+        {{/each}}
+
+    </div>
+    </div>
+
+    <div class="cuadro-gris">
+        <a href="https://youtu.be/4cKb-8LxCrE?feature=shared" class="link-youtube" target="_blank">Enlace a YouTube</a>
+    </div>
+</body>
+
+</html>
+
+
+<style>
+        body {
+            background: linear-gradient(to bottom, #94B8D0, #ffffff);
+            margin: 0;
+           
+            font-family: Arial, sans-serif; /* Cambia la fuente según tus preferencias */
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #fff; /* Cambia el color del texto si es necesario */
+        }
+
+        .crear-contenido {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 70%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 50%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #94B8D0;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3F3F4B; /* Cambia el color al pasar el ratón si es necesario */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: linear-gradient(to bottom, #94B8D0, #ffffff);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            color: #06152B; /* Cambia el color del texto si es necesario */
+        }
+
+        a {
+            color: #3F3F4B; /* Cambia el color del enlace si es necesario */
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline; /* Cambia el estilo al pasar el ratón si es necesario */
+        }
+    </style>
+    .cuadro-gris {
+        width: 300px;
+        height: 200px;
+        left: 895px;
+        top: 200px;
+        bottom: 400px;
+
+        background-color: #ccc;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        position: absolute;
+        cursor: move;
+    }
+
+    .link-youtube {
+        height: 50px;
+        left: 2000px;
+        top: 500px;
+        display: block;
+        padding: 10px;
+        background: linear-gradient(180deg, #809CCE 36%, rgba(2, 3, 3, 0) 100%);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .link-youtube:hover {
+        padding: 10px;
+        background: linear-gradient(to right, #B7E0D2, #ffffff);
+    }
+
+    /* Agrega estilos adicionales según tus preferencias */
+
+
+    /* Estilos para los botones simulados */
+    .button-simulado {
+        width: 100px;
+        height: 30px;
+        padding: 8px 12px;
+        margin: 5px;
+        background: #94B8D0;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Estilo para el botón de tipo file */
+    .input-field[type="file"] {
+        display: none;
+        /* Oculta el input de tipo file predeterminado */
+    }
+
+    /* Estilo para el contenedor del botón de tipo file */
+    .button-simulado-file {
+
+
+        margin: 5px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Estilo para el texto del botón de tipo file */
+    .file-text {
+        margin-right: 5px;
+    }
+
+    /* Estilo para el input de tipo file dentro del contenedor */
+    .input-field[type="file"] {
+        display: block;
+        /* Cambiada a display: block; */
+        position: absolute;
+        font-size: 100px;
+        opacity: 0;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+    }
+
+
+    /* Estilos para el cuadro independiente */
+    .cuadro-independiente {
+        width: 300px;
+        height: 345px;
+        left: 445px;
+        top: 200px;
+        position: fixed;
+        padding: 20px;
+        background: linear-gradient(to right, #94B8D0, #ffffff);
+
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        cursor: move;
+        /* Agrega un cursor de "mover" */
+    }
+
+
+
+    /* Estilos generales del cuerpo de la página */
+    body {
+        background: linear-gradient(to right, #94B8D0, #ffffff);
+        margin: 20px;
+        padding: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+
+    }
+
+    #vector1 {
+        position: absolute;
+        height: 426px;
+        left: 999px;
+        right: 0px;
+        top: calc(50% - 426px/2 - 315.5px);
+        background: linear-gradient(180deg, #809CCE 36%, rgba(2, 3, 3, 0) 100%);
+    }
+
+    #rectangle {
+
+        width: 1240px;
+        /* Ancho del cuadrado */
+        height: 6000px;
+        /* Altura del cuadrado */
+
+        background: #F1F4FA;
+        /* Color blanco */
+        margin: -40px;
+        /* Márgenes para separar el cuadrado del borde de la página */
+        padding: 40px;
+        /* Espacio interno alrededor del contenido dentro del cuadrado */
+        box-sizing: border-box;
+        /* Incluye el espacio de relleno en el tamaño total del cuadro */
+        /* Nuevas propiedades para alinear y posicionar el cuadro */
+        top: 300px;
+
+    }
+
+    .typesumit {
+        position: absolute;
+        text-align: inherit;
+        left: 18.14%;
+        right: 54.04%;
+        top: 5.49%;
+        bottom: 87.32%;
+        background: linear-gradient(0deg, #809CCE, #809CCE);
+        border-radius: 49px;
+        font-size: 20px;
+
+
+    }
+
+    .barra-botones {
+        background: linear-gradient(180deg, #94B8D0 24.5%, rgba(148, 184, 208, 0) 100%);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+        border-radius: 20px;
+    }
+
+    .boton {
+        background-color: #ffffff;
+        border: none;
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .boton:hover {
+        background-color: #94B8D0;
+    }
+
+    /* barra informate y crea*/
+    .barra {
+        background: #809CCE;
+        padding: 10px;
+        width: 30%;
+        margin: 10;
+        border-radius: 20px;
+        text-align: inherit;
+
+    }
+
+    .titulo {
+        color: #FFECEC;
+        margin: 0;
+        font-size: 24px;
+        /* Puedes ajustar el tamaño del texto */
+    }
+
+
+
+    /* estilo para  comentario */
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 20px;
+    }
+
+
+    .cuadro-azul {
+
+        background: linear-gradient(80.17deg, #94B8D0 7.38%, #3F3F4B 92.62%);
+        padding: 10px;
+        border-radius: 10px;
+        height: 150px;
+        right: 50%;
+        width: 400px;
+        position: fixed;
+        left: 800px;
+        top: 450px;
+
+    }
+
+    .cuadro-blanco {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        width: 350px;
+        height: 200 px;
+        position: relative;
+
+    }
+
+    textarea {
+        right: 300 80%;
+
+        width: 5000.100px;
+        height: 80.48px;
+    }
+
+    /* Estilos de etiquetas y campos del formulario */
+    label {
+        display: block;
+        margin: 10px 0;
+        left: 20px;
+    }
+</style>
+</head>
+</body>
