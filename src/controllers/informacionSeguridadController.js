@@ -73,28 +73,27 @@ const obtenerInformacionSeguridadPorId = async (req, res) => {
 
 
 const actualizarInformacionSeguridad = async (req, res) => {
-    const id = req.params.id
-    const ids = req.user.id
-    const {titulo, contenido, comentario, fecha_publicacion}= req.body
-    const nuevo = {
-        titulo,
-        contenido,
-        comentario,
-        fecha_publicacion,
-        id_autor: ids,
+    try {
+        const { id } = req.params;
+        // Buscar la información de seguridad a actualizar en la base de datos
+        const informacionSeguridad = await orm.InformacionSeguridad.findByPk(id);
+        if (!informacionSeguridad) {
+            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
+        }
+        // Actualizar los campos de la información de seguridad con los datos enviados en la solicitud
+        await informacionSeguridad.update(req.body);
+        // Redirigir a la página de información de seguridad después de la actualización
+        return res.redirect('/informacion-seguridad');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al actualizar la información de seguridad' });
     }
-    await orm.InformacionSeguridad.findOne({where: {id:id}})
-    .then((anyname)=>{
-        anyname.update(nuevo)
-        req.redirect('/informacion-seguridad')
-    })
-
 };
 
 const eliminarInformacionSeguridad = async (req, res) => {
     const { id } = req.params;
     try {
-        const filasEliminadas = await InformacionSeguridad.destroy({ where: { id } });
+        const filasEliminadas = await orm.InformacionSeguridad.destroy({ where: { id } });
         if (filasEliminadas === 0) {
             return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
         }
