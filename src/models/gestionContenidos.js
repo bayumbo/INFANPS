@@ -6,12 +6,10 @@ const GestionContenido = (sequelize, type) => {
             autoIncrement: true,
         },
         titulo: type.STRING(255),
-        tipo_contenido: type.STRING(50),
         contenido: type.TEXT,
         fecha_publicacion: type.DATE,
-        id_autor: type.INTEGER,
-        categoria: type.STRING(255), // Campo para la categoría
-        archivo_multimedia: {
+        id_autor: type.INTEGER, // Campo para la categoría
+        ruta_archivo: {
             type: type.STRING(255), // Tipo de dato para la ruta del archivo multimedia
             allowNull: true, // Permite que el campo sea nulo
         },

@@ -1,20 +1,33 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua/C0jPIh4aCeX1c1l0pC6OgZD25AdeG5WxVPCsP/Q3lgNG3cOj98FuVX" crossorigin="anonymous">
-<form action=""></form>
- <h1 class="titulo">Crear Nueva Actividad</h1>
- <br>
 
-<h1 class="titulo">Editar Foro</h1>
-<form action="/foros/editar/{{this.id}}" method="POST">
-    <!-- Campo oculto para el método PUT -->
+<form action="/foros/editar/{{this.id}}" method="POST" enctype="multipart/form-data">
+    <!-- Campo oculto para indicar el método PUT -->
     <input type="hidden" name="_method" value="PUT">
-    <label for="titulo">Título del Foro:</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <label for="contenido">Contenido:</label>
-    <textarea id="contenido" name="contenido" required></textarea>
-    <input type="hidden" name="id_creador" value="1"> <!-- Agrega el id_creador como un valor constante o dinámico -->
-    <div>
-        <button type="submit">Editar Foro</button>
+
+    <h1 class="titulo">Editar Foro</h1>
+
+    <!-- Resto del formulario -->
+    <div class="mb-3">
+        <label for="titulo" class="form-label">Título:</label>
+        <input type="text" name="titulo" class="form-control">
     </div>
+    
+    <div class="mb-3">
+        <label for="contenido" class="form-label">Contenido:</label>
+        <textarea name="contenido" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="fechaPublicacion" class="form-label">Fecha de Publicación:</label>
+        <input type="datetime-local" name="fechaPublicacion" class="form-control">
+    </div>
+    
+    <div class="mb-3">
+        <label for="archivoMultimedia" class="form-label">Archivo Multimedia:</label>
+        <input type="file" name="archivoMultimedia" class="form-control">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
 </form>
 
 

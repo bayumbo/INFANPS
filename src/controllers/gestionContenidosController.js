@@ -15,7 +15,7 @@ const obtenerGestionCategoria = async(req, res) => {
 const obtenerContenidoForo = async(req, res) => {
     try {
         const foros = await orm.Foro.findAll();
-        return res.json(foros)
+        return res.render('gestionForo', { foros })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al obtener foros' });
@@ -24,25 +24,31 @@ const obtenerContenidoForo = async(req, res) => {
 
 const crearCategoriaForo = async(req, res) => {
     try {
+        const { titulo, contenido, fechaPublicacion } = req.body;
+        let archivoMultimedia;
 
-        const { titulo, contenido, campoAdicional, id_creador } = req.body;
+        // Verificar si se ha subido un archivo multimedia
+        if (req.file) {
+            archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
+        }
 
-        // Crear un nuevo foro
-        const nuevoForo = await orm.Foro.create({
+        // Crear el contenido en GestionContenido
+        const nuevoContenido = await orm.Foro.create({
             titulo,
             contenido,
-            campoAdicional, // Nuevo campo
-            id_creador,
+            archivo_multimedia: archivoMultimedia,
+            fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
         });
 
-        // Obtener el usuario para enviar la notificació
-
+        // Redireccionar a la página de gestión de contenidos
         return res.redirect('/gestion-contenidos/foro');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al crear foro desde la vista' });
+        return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
     }
 };
+
+
 
 const obtenerContenidoForoPorId = async(req, res) => {
     const { id } = req.params;
@@ -51,7 +57,7 @@ const obtenerContenidoForoPorId = async(req, res) => {
         if (!foro) {
             return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-        render('gestionForo', { foro })
+        render('actividades', { foro })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
