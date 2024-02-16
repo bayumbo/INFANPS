@@ -8,7 +8,6 @@ const Foro = (sequelize, type) => {
             },
             titulo: type.STRING(255),
             contenido: type.TEXT,
-            id_creador: type.INTEGER,
             fecha_creacion: {
                 type: "TIMESTAMP",
                 defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),

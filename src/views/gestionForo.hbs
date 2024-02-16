@@ -5,14 +5,18 @@
  <br>
 
 <h2>Crear Nueva Actividad</h2>
-<form action="/foros/crear" method="post">
-    <label for="titulo">Título de la Actividad:</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <label for="contenido">contenido:</label>
-    <textarea id="contenido" name="descripcion"></textarea>
-    <input type="hidden" name="id_creador" value="1"> <!-- Agrega el id_creador como un valor constante o dinámico -->
-    <div>
-    <button type="submit">+ Añadir Actividad </button>
+<form action="/gestion-contenidos/cf" method="POST">
+    <label for="titulo">Título:</label><br>
+        <input type="text" id:"titulo" name="titulo"><br><br>
+        <label for="contenido">Contenido:</label><br>
+        <textarea name="contenido"></textarea><br><br>
+        <label for="fechaPublicacion">Fecha de Publicación:</label><br>
+        <input type="datetime-local" name="fechaPublicacion" ><br><br>
+        
+        <label for="archivoMultimedia">Archivo Multimedia:</label><br>
+        <input type="file" name="archivoMultimedia"><br><br>
+        
+        <button type="submit">Agregar Contenido</button>
     </div>
 </form>
 {{#each foros index=index}}
@@ -22,11 +26,11 @@
       <p>{{contenido}}</p>
     </div>
     <div class="botones">
-    <form action="/foros/{{this.id}}" method="GET">
+    <form action="/foros/editar/{{this.id}}" method="GET">
       <button type="submit" id="editar" >Editar</button>
     </form>
     <!-- Formulario para eliminar el foro -->
-    <form action="/foros/eliminar/{{this.id}}" method="DELETE" onsubmit="return confirm('¿Estás seguro de eliminar este foro?');">
+    <form action="/foros/eliminar/{{this.id}}" method="DELETE" ;">
       <button type="submit" id="eliminar" >Eliminar</button>
     </form>
     </div>
