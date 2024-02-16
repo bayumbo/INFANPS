@@ -28,12 +28,6 @@ const crearInformacionSeguridad = async(req, res) => {
 
         const usuario = await orm.InformacionSeguridad.findByPk(id_autor);
 
-        // Verificar si se encontró el usuario
-        if (!usuario) {
-            console.error('Usuario no encontrado');
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-        }
-
         // Acceder al correo electrónico del usuario
         const correoUsuario = usuario.correo;
 

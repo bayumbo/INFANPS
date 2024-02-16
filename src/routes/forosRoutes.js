@@ -11,9 +11,7 @@ router.get('/foros', forosController.obtenerForos);
 router.post('/foros/crear', forosController.crearForo);
 router.get('/foros/:id', forosController.obtenerForoPorId);
 router.get('/foros/editar/:id', forosController.formularioForos)
-    // Usar solo el método PUT para la actualización
-router.put('/foros/editar/:id', forosController.actualizarForo);
-
+router.post('/foros/editar/:id', forosController.actualizarForo);
 router.get('/foros/eliminar/:id', forosController.eliminarForo);
 
 module.exports = router;

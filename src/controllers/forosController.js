@@ -68,22 +68,21 @@ const formularioForos = async(req, res) => {
 const actualizarForo = async(req, res) => {
     try {
         const { id } = req.params;
-        const { titulo, contenido, archivoMultimedia, fechaPublicacion } = req.body;
+        // Buscar la información de seguridad a actualizar en la base de datos
         const foro = await orm.Foro.findByPk(id);
         if (!foro) {
-            return res.status(404).json({ mensaje: 'Foro no encontrado' });
+            return res.status(404).json({ mensaje: 'Foro no encontrada' });
         }
-
-        // Actualizar el foro con los datos proporcionados
-        await orm.Foro.update({ titulo, contenido, archivoMultimedia, fechaPublicacion }, { where: { id } });
-
-        // Redireccionar a la página de foros después de la actualización
+        // Actualizar los campos de la información de seguridad con los datos enviados en la solicitud
+        await foro.update(req.body);
+        // Redirigir a la página de información de seguridad después de la actualización
         return res.redirect('/foros');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar foro' });
+        return res.status(500).json({ mensaje: 'Error al actualizar el foro' });
     }
 };
+
 
 const eliminarForo = async(req, res) => {
     const { id } = req.params;

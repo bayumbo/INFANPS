@@ -47,15 +47,18 @@
                     <option value="documento">Documento</option>
                 </select>
 
-                <label for="imagenInput" class="button-simulado">Seleccionar archivo:</label>
+                <div>
+                <div for="imagenInput" class="button-simulado">Seleccionar archivo:
+                    <input class="input-field" type="file" id="imagenInput">
+                </div>
                 <br>
-                <input class="input-field" type="file" id="imagenInput">
-
+                
+                </div>
                 <label for="fecha_publicacion" class="button-simulado">Fecha de Publicación:</label>
                 <input class="input-field" type="datetime-local" name="fecha_publicacion" required>
 
-                <label for="id_autor" class="button-simulado">ID del Autor:</label>
-                <input class="input-field" type="number" name="id_autor" required>
+                <label for="id_autor" class="button-simulado">ID del Autor: {{id_autor}}</label>
+                
 
 
                 <br>
@@ -71,7 +74,7 @@
                         <button type="submit">Agregar Información de Seguridad</button>
                     </div>
                 </div>
-
+            </div>
     </form>
 
     <div class="cuadro-independiente">
@@ -210,11 +213,7 @@ a.editar-link:hover {
         cursor: pointer;
     }
 
-    /* Estilo para el botón de tipo file */
-    .input-field[type="file"] {
-        display: none;
-        /* Oculta el input de tipo file predeterminado */
-    }
+
 
     /* Estilo para el contenedor del botón de tipo file */
     .button-simulado-file {
@@ -236,16 +235,7 @@ a.editar-link:hover {
     }
 
     /* Estilo para el input de tipo file dentro del contenedor */
-    .input-field[type="file"] {
-        display: block;
-        /* Cambiada a display: block; */
-        position: absolute;
-        font-size: 100px;
-        opacity: 0;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-    }
+   
 
 
     /* Estilos para el cuadro independiente */
@@ -272,7 +262,7 @@ a.editar-link:hover {
         background: linear-gradient(to right, #94B8D0, #ffffff);
         margin: 20px;
         padding: 0;
-        overflow: hidden;
+       
         font-family: Arial, sans-serif;
 
     }
