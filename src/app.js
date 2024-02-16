@@ -1,4 +1,5 @@
 const express = require('express');
+const methodOverride = require('method-override');
 const morgan = require('morgan');
 const path = require('path');
 const exphbs = require('express-handlebars');
@@ -88,6 +89,9 @@ app.use(helmet());
 
 // Configurar archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Configurar method override
+app.use(methodOverride('_method'));
 
 // Rutas
 const informacionSeguridadRoutes = require('./routes/informacionSeguridadRoutes');

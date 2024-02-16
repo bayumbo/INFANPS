@@ -13,13 +13,10 @@ const InformacionSeguridad = (sequelize) => {
                 allowNull: true, // O false dependiendo de tus requisitos
             },
             contenido: {
-                type: DataTypes.STRING(255)  ,
+                type: DataTypes.STRING(255),
                 allowNull: true, // O false dependiendo de tus requisitos
             },
-            comentario: {
-                type: DataTypes.TEXT,
-                allowNull: true, // O false dependiendo de tus requisitos
-            },
+
             fecha_publicacion: {
                 type: DataTypes.DATE,
                 allowNull: true, // O false dependiendo de tus requisitos

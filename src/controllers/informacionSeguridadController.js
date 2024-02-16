@@ -1,8 +1,8 @@
 const orm = require('../Database/dataBase.orm');
-const {enviarCorreoNotificacion} = require ('../controllers/notificacionesController');
+const { enviarCorreoNotificacion } = require('../controllers/notificacionesController');
 
 
-const obtenerInformacionSeguridad = async (req, res) => {
+const obtenerInformacionSeguridad = async(req, res) => {
     try {
         const informacionSeguridad = await orm.InformacionSeguridad.findAll();
         return res.render('informacionSeguridad', { informacionSeguridad });
@@ -13,14 +13,14 @@ const obtenerInformacionSeguridad = async (req, res) => {
 };
 
 
-const crearInformacionSeguridad = async (req, res) => {
+const crearInformacionSeguridad = async(req, res) => {
     try {
-        const {  titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
+        const { titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
 
         // Crear un nuevo foro
         const nuevaInformacionSeguridad = await orm.InformacionSeguridad.create({
             titulo,
-            contenido, 
+            contenido,
             comentario,
             fecha_publicacion,
             id_autor,
@@ -49,14 +49,14 @@ const crearInformacionSeguridad = async (req, res) => {
 
         // Enviar notificación por correo
         await enviarCorreoNotificacion(usuario.correo, asunto, mensaje);
-        
+
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al crear información de seguridad' });
     }
 };
-const obtenerInformacionSeguridadPorId = async (req, res) => {
+const obtenerInformacionSeguridadPorId = async(req, res) => {
     try {
         const { id } = req.params;
         const informacionSeguridad = await orm.InformacionSeguridad.findByPk(id);
@@ -72,7 +72,7 @@ const obtenerInformacionSeguridadPorId = async (req, res) => {
 };
 
 
-const actualizarInformacionSeguridad = async (req, res) => {
+const actualizarInformacionSeguridad = async(req, res) => {
     try {
         const { id } = req.params;
         // Buscar la información de seguridad a actualizar en la base de datos
@@ -90,7 +90,7 @@ const actualizarInformacionSeguridad = async (req, res) => {
     }
 };
 
-const eliminarInformacionSeguridad = async (req, res) => {
+const eliminarInformacionSeguridad = async(req, res) => {
     const { id } = req.params;
     try {
         const filasEliminadas = await orm.InformacionSeguridad.destroy({ where: { id } });

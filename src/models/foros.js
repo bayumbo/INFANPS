@@ -8,15 +8,13 @@ const Foro = (sequelize, type) => {
             },
             titulo: type.STRING(255),
             contenido: type.TEXT,
-            id_creador: type.INTEGER,
-            fecha_creacion: {
-                type: "TIMESTAMP",
-                defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-                allowNull: false,
+            fecha_publicacion: type.DATE,
+            ruta_archivo: {
+                type: type.STRING(255), // Tipo de dato para la ruta del archivo multimedia
+                allowNull: true, // Permite que el campo sea nulo
             },
         }, {
             timestamps: false,
-        }
-    );
+        });
 };
 module.exports = Foro;

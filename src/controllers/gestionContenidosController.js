@@ -1,32 +1,30 @@
-const { Op } = require('sequelize');
-const { GestionContenido, Foro, ActividadesInteractivas, InformacionSeguridad, RelacionCategoriasContenido } = require('../Database/dataBase.orm');
-// Función auxiliar para obtener el modelo de la categoría
-const obtenerModeloCategoria = (categoria) => {
-    switch (categoria) {
-        case 'Foros':
-            return Foro;
-        case 'Actividades Interactivas':
-            return ActividadesInteractivas;
-        case 'Información de Seguridad':
-            return InformacionSeguridad;
-        default:
-            throw new Error('Categoría no válida');
-    }
-};
+const orm = require('../Database/dataBase.orm');
+const { enviarCorreoNotificacion } = require('../controllers/notificacionesController');
 
-const obtenerGestionContenido = async(req, res) => {
+const obtenerGestionCategoria = async(req, res) => {
     try {
-        const gestionContenido = await GestionContenido.findAll();
-        return res.render('gestionContenido', { gestionContenido });
+        const gestion = await orm.GestionContenido.findAll();
+        return res.render('seleccion', { gestion });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener gestión de contenidos' });
+        return res.status(500).json({ mensaje: 'Error al obtener Gestion contenidos' });
     }
 };
 
-const crearGestionContenido = async(req, res) => {
+
+const obtenerContenidoForo = async(req, res) => {
     try {
-        const { titulo, contenido, categoria, fechaPublicacion } = req.body;
+        const foros = await orm.Foro.findAll();
+        return res.render('gestionForo', { foros })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al obtener foros' });
+    }
+};
+
+const crearCategoriaForo = async(req, res) => {
+    try {
+        const { titulo, contenido, fechaPublicacion } = req.body;
         let archivoMultimedia;
 
         // Verificar si se ha subido un archivo multimedia
@@ -34,29 +32,16 @@ const crearGestionContenido = async(req, res) => {
             archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
         }
 
-        // Obtener el modelo de la categoría
-        const categoriaModel = obtenerModeloCategoria(categoria);
-
         // Crear el contenido en GestionContenido
-        const nuevoContenido = await GestionContenido.create({
+        const nuevoContenido = await orm.Foro.create({
             titulo,
             contenido,
             archivo_multimedia: archivoMultimedia,
             fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
         });
 
-        // Crear el contenido en la tabla de la categoría correspondiente
-        await categoriaModel.create({
-            ...nuevoContenido.dataValues // Se pasan todos los campos y sus valores
-        });
-
-        // Crear la relación en RelacionCategoriasContenido
-        await RelacionCategoriasContenido.create({
-            id_contenido: nuevoContenido.id_contenido,
-            id_categoria: categoriaModel.id_categoria,
-        });
-
-        return res.redirect('/gestion-contenidos');
+        // Redireccionar a la página de gestión de contenidos
+        return res.redirect('/gestion-contenidos/foro');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
@@ -64,72 +49,67 @@ const crearGestionContenido = async(req, res) => {
 };
 
 
-const obtenerGestionContenidoPorId = async(req, res) => {
+
+const obtenerContenidoForoPorId = async(req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const gestionContenido = await GestionContenido.findByPk(id);
-        if (!gestionContenido) {
-            return res.status(404).json({ mensaje: 'Contenido no encontrado' });
+        const foro = await orm.Foro.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-        return res.render('detalleGestionContenido', { gestionContenido });
+        render('actividades', { foro })
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener gestión de contenido por ID' });
+        return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
     }
 };
 
-const actualizarGestionContenido = async(req, res) => {
+const actualizarForo = async(req, res) => {
     try {
         const { id } = req.params;
-        const { titulo, contenido, categoria } = req.body;
-
-        // Verificar si el contenido existe
-        const gestionContenido = await GestionContenido.findByPk(id);
-        if (!gestionContenido) {
-            return res.status(404).json({ mensaje: 'Contenido no encontrado' });
+        // Lógica para obtener el foro con el ID proporcionado desde la base de datos
+        const foro = await Foro.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
 
-        // Actualizar el contenido
-        await gestionContenido.update({ titulo, contenido });
-
-        // Obtener el modelo de la categoría
-        const categoriaModel = obtenerModeloCategoria(categoria);
-
-        // Actualizar la relación en RelacionCategoriasContenido
-        await RelacionCategoriasContenido.update({ id_categoria: categoriaModel.id }, { where: { id_contenido: id } });
-
-        return res.redirect('/gestion-contenidos');
+        if (req.method === 'GET') {
+            // Si la solicitud es GET, renderizar el formulario de edición
+            return res.render('foros', { foro });
+        } else if (req.method === 'PUT') {
+            // Si la solicitud es PUT, actualizar el foro con los datos proporcionados
+            const { titulo, descripcion, campoAdicional } = req.body;
+            await Foro.update({ titulo, descripcion, campoAdicional }, { where: { id } });
+            return res.redirect('/foros'); // Redireccionar a la página de foros después de la actualización
+        } else {
+            return res.status(405).json({ mensaje: 'Método HTTP no permitido' });
+        }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar gestión de contenido' });
+        return res.status(500).json({ mensaje: 'Error al actualizar foro' });
     }
 };
-
-const eliminarGestionContenido = async(req, res) => {
+const eliminarForo = async(req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
 
-        // Eliminar la relación en RelacionCategoriasContenido
-        await RelacionCategoriasContenido.destroy({
-            where: { id_contenido: id },
-        });
-
-        // Eliminar el contenido
-        await GestionContenido.destroy({
-            where: { id },
-        });
-
-        return res.redirect('/gestion-contenidos');
+        const filasEliminadas = await Foro.destroy({ where: { id } });
+        if (filasEliminadas === 0) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
+        }
+        return res.redirect('/foros');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al eliminar gestión de contenido' });
+        return res.status(500).json({ mensaje: 'Error al eliminar foro' });
+
     }
 };
+
+
 
 module.exports = {
-    obtenerGestionContenido,
-    crearGestionContenido,
-    obtenerGestionContenidoPorId,
-    actualizarGestionContenido,
-    eliminarGestionContenido,
+    obtenerContenidoForo,
+    obtenerGestionCategoria,
+    crearCategoriaForo,
+    obtenerContenidoForoPorId
 };

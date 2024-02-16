@@ -1,10 +1,8 @@
-const { Op } = require('sequelize');
-const { Foro, Usuario } = require('../Database/dataBase.orm');
-const {enviarCorreoNotificacion} = require ('../controllers/notificacionesController');
+const orm = require('../Database/dataBase.orm');
 
-const obtenerForos = async (req, res) => {
+const obtenerForos = async(req, res) => {
     try {
-        const foros = await Foro.findAll();
+        const foros = await orm.Foro.findAll();
         return res.render('foros', { foros });
     } catch (error) {
         console.error(error);
@@ -12,96 +10,85 @@ const obtenerForos = async (req, res) => {
     }
 };
 
-const crearForo = async (req, res) => {
+const crearForo = async(req, res) => {
     try {
-        
-        const { titulo, contenido, campoAdicional, id_creador } = req.body;
+        const { titulo, contenido, fechaPublicacion } = req.body;
+        let archivoMultimedia;
 
-        // Crear un nuevo foro
-        const nuevoForo = await Foro.create({
+        // Verificar si se ha subido un archivo multimedia
+        if (req.file) {
+            archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
+        }
+
+        // Crear el contenido en GestionContenido
+        const nuevoContenido = await orm.Foro.create({
             titulo,
-            contenido, 
-            campoAdicional, // Nuevo campo
-            id_creador,
+            contenido,
+            archivo_multimedia: archivoMultimedia,
+            fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
         });
 
-        // Obtener el usuario para enviar la notificación
-        const usuario = await Usuario.findByPk(id_creador);
-
-        // Verificar si se encontró el usuario
-        if (!usuario) {
-            console.error('Usuario no encontrado');
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-        }
-
-        // Acceder al correo electrónico del usuario
-        const correoUsuario = usuario.correo;
-
-        // Verificar si el usuario tiene un correo electrónico
-        if (!correoUsuario) {
-            console.error('Usuario sin dirección de correo electrónico');
-            return res.status(500).json({ mensaje: 'Usuario sin dirección de correo electrónico' });
-        }
-
-        // Asunto y mensaje de la notificación
-        const asunto = 'Nuevo foro creado';
-        const mensaje = `Se ha creado un nuevo foro: ${titulo}`;
-
-        // Enviar notificación por correo
-        await enviarCorreoNotificacion(usuario.correo, asunto, mensaje);
-
-        // Redireccionar o responder según sea necesario
+        // Redireccionar a la página de gestión de contenidos
         return res.redirect('/foros');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al crear foro desde la vista' });
+        return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
     }
 };
 
-const obtenerForoPorId = async (req, res) => {
+const obtenerForoPorId = async(req, res) => {
     const { id } = req.params;
     try {
-        const foro = await Foro.findByPk(id);
+        const foro = await orm.Foro.findByPk(id);
         if (!foro) {
             return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-        return res.render('foros', { foro });
+        return res.json({ foro });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
     }
 };
 
-const actualizarForo = async (req, res) => {
+const formularioForos = async(req, res) => {
+    const { id } = req.params;
+    try {
+        const foro = await orm.Foro.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
+        }
+        // Renderizar el formulario de edición con los datos del foro
+        return res.render('editarForos', { foro });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al mostrar formulario de edición' });
+    }
+};
+
+const actualizarForo = async(req, res) => {
     try {
         const { id } = req.params;
-        // Lógica para obtener el foro con el ID proporcionado desde la base de datos
-        const foro = await Foro.findByPk(id);
+        const { titulo, contenido, archivoMultimedia, fechaPublicacion } = req.body;
+        const foro = await orm.Foro.findByPk(id);
         if (!foro) {
             return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
 
-        if (req.method === 'GET') {
-            // Si la solicitud es GET, renderizar el formulario de edición
-            return res.render('foros', { foro });
-        } else if (req.method === 'PUT') {
-            // Si la solicitud es PUT, actualizar el foro con los datos proporcionados
-            const { titulo, descripcion, campoAdicional } = req.body;
-            await Foro.update({ titulo, descripcion, campoAdicional }, { where: { id } });
-            return res.redirect('/foros'); // Redireccionar a la página de foros después de la actualización
-        } else {
-            return res.status(405).json({ mensaje: 'Método HTTP no permitido' });
-        }
+        // Actualizar el foro con los datos proporcionados
+        await orm.Foro.update({ titulo, contenido, archivoMultimedia, fechaPublicacion }, { where: { id } });
+
+        // Redireccionar a la página de foros después de la actualización
+        return res.redirect('/foros');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al actualizar foro' });
     }
 };
-const eliminarForo = async (req, res) => {
+
+const eliminarForo = async(req, res) => {
     const { id } = req.params;
     try {
-        
-        const filasEliminadas = await Foro.destroy({ where: { id } });
+        const filasEliminadas = await orm.Foro.destroy({ where: { id } });
         if (filasEliminadas === 0) {
             return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
@@ -109,16 +96,14 @@ const eliminarForo = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensaje: 'Error al eliminar foro' });
-        
     }
 };
-
-
 
 module.exports = {
     obtenerForos,
     crearForo,
     obtenerForoPorId,
+    formularioForos,
     actualizarForo,
     eliminarForo,
 };

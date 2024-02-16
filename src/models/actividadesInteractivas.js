@@ -1,19 +1,21 @@
 const ActividadesInteractivas = (sequelize, type) => {
     return sequelize.define(
         "ActividadesInteractivas", {
+
             id: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
             titulo: type.STRING(255),
-            tipo_actividad: type.STRING(50),
             contenido: type.TEXT,
             fecha_publicacion: type.DATE,
-            id_autor: type.INTEGER,
+            ruta_archivo: {
+                type: type.STRING(255), // Tipo de dato para la ruta del archivo multimedia
+                allowNull: true, // Permite que el campo sea nulo
+            },
         }, {
             timestamps: false,
-        }
-    );
+        });
 };
 module.exports = ActividadesInteractivas;
