@@ -21,6 +21,15 @@ const obtenerContenidoForo = async(req, res) => {
         return res.status(500).json({ mensaje: 'Error al obtener foros' });
     }
 };
+const obtenerInformacion = async(req, res) => {
+    try {
+        const informacion = await orm.InformacionSeguridad.findAll();
+        return res.render('informacion', { informacion });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al obtener foros' });
+    }
+};
 
 const crearCategoriaForo = async(req, res) => {
     try {
@@ -47,8 +56,31 @@ const crearCategoriaForo = async(req, res) => {
         return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
     }
 };
+const crearInformacion = async(req, res) => {
+    try {
+        const { titulo, contenido, fechaPublicacion } = req.body;
+        let archivoMultimedia;
 
+        // Verificar si se ha subido un archivo multimedia
+        if (req.file) {
+            archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
+        }
 
+        // Crear el contenido en GestionContenido
+        const nuevoContenido = await orm.InformacionSeguridad.create({
+            titulo,
+            contenido,
+            archivo_multimedia: archivoMultimedia,
+            fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
+        });
+
+        // Redireccionar a la página de gestión de contenidos
+        return res.redirect('/informacion-seguridad');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
+    }
+};
 
 const obtenerContenidoForoPorId = async(req, res) => {
     const { id } = req.params;
@@ -63,7 +95,19 @@ const obtenerContenidoForoPorId = async(req, res) => {
         return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
     }
 };
-
+const obtenerInformacionPorId = async(req, res) => {
+    const { id } = req.params;
+    try {
+        const informacion = await orm.InformacionSeguridad.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Informacion seguridad no encontrada' });
+        }
+        return res.json({ informacion });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
+    }
+};
 const actualizarForo = async(req, res) => {
     try {
         const { id } = req.params;
@@ -111,5 +155,8 @@ module.exports = {
     obtenerContenidoForo,
     obtenerGestionCategoria,
     crearCategoriaForo,
-    obtenerContenidoForoPorId
+    obtenerContenidoForoPorId,
+    obtenerInformacion,
+    crearInformacion,
+    obtenerInformacionPorId,
 };

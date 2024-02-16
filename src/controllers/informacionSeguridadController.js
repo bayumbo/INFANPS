@@ -1,109 +1,109 @@
 const orm = require('../Database/dataBase.orm');
-const { enviarCorreoNotificacion } = require('../controllers/notificacionesController');
 
-
-const obtenerInformacionSeguridad = async(req, res) => {
+const obtenerInformacion = async(req, res) => {
     try {
-        const informacionSeguridad = await orm.InformacionSeguridad.findAll();
-        return res.render('informacionSeguridad', { informacionSeguridad });
+        const informacion = await orm.InformacionSeguridad.findAll();
+        return res.render('informacion', { informacion });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener información de seguridad' });
+        return res.status(500).json({ mensaje: 'Error al obtener foros' });
     }
 };
 
-
-const crearInformacionSeguridad = async(req, res) => {
+const crearInformacion = async(req, res) => {
     try {
-        const { titulo, contenido, comentario, fecha_publicacion, id_autor } = req.body;
+        const { titulo, contenido, fechaPublicacion } = req.body;
+        let archivoMultimedia;
 
-        // Crear un nuevo foro
-        const nuevaInformacionSeguridad = await orm.InformacionSeguridad.create({
+        // Verificar si se ha subido un archivo multimedia
+        if (req.file) {
+            archivoMultimedia = req.file.path; // Ruta del archivo multimedia en el servidor
+        }
+
+        // Crear el contenido en GestionContenido
+        const nuevoContenido = await orm.InformacionSeguridad.create({
             titulo,
             contenido,
-            comentario,
-            fecha_publicacion,
-            id_autor,
+            archivo_multimedia: archivoMultimedia,
+            fecha_publicacion: fechaPublicacion // Se pasa la fecha de publicación del contenido
         });
 
-        const usuario = await orm.InformacionSeguridad.findByPk(id_autor);
-
-        // Acceder al correo electrónico del usuario
-        const correoUsuario = usuario.correo;
-
-        // Verificar si el usuario tiene un correo electrónico
-        if (!correoUsuario) {
-            console.error('Usuario sin dirección de correo electrónico');
-            return res.status(500).json({ mensaje: 'Usuario sin dirección de correo electrónico' });
-        }
-
-        // Asunto y mensaje de la notificación
-        const asunto = 'Nueva información creada';
-        const mensaje = `Se ha creado una nueva información: ${titulo}`;
-
-        // Enviar notificación por correo
-        await enviarCorreoNotificacion(usuario.correo, asunto, mensaje);
-
+        // Redireccionar a la página de gestión de contenidos
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al crear información de seguridad' });
+        return res.status(500).json({ mensaje: 'Error al crear gestión de contenido' });
     }
 };
-const obtenerInformacionSeguridadPorId = async(req, res) => {
+
+const obtenerInformacionPorId = async(req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const informacionSeguridad = await orm.InformacionSeguridad.findByPk(id);
-        if (!informacionSeguridad) {
-            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
+        const informacion = await orm.InformacionSeguridad.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Informacion seguridad no encontrada' });
         }
-        // Renderizar la vista de edición con los datos de la información de seguridad
-        res.render('editarInformacionSeguridad', { informacionSeguridad });
+        return res.json({ informacion });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener la información de seguridad para editar' });
+        return res.status(500).json({ mensaje: 'Error al obtener foro por ID' });
     }
 };
 
+const formularioInformacion = async(req, res) => {
+    const { id } = req.params;
+    try {
+        const foro = await orm.InformacionSeguridad.findByPk(id);
+        if (!foro) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
+        }
+        // Renderizar el formulario de edición con los datos del foro
+        return res.render('editarInformacion', { foro });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ mensaje: 'Error al mostrar formulario de edición' });
+    }
+};
 
-const actualizarInformacionSeguridad = async(req, res) => {
+const actualizarInformacion = async(req, res) => {
     try {
         const { id } = req.params;
-        // Buscar la información de seguridad a actualizar en la base de datos
-        const informacionSeguridad = await orm.InformacionSeguridad.findByPk(id);
-        if (!informacionSeguridad) {
-            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
+        const { titulo, contenido, archivoMultimedia, fechaPublicacion } = req.body;
+        const informacion = await orm.InformacionSeguridad.findByPk(id);
+        if (!informacion) {
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-        // Actualizar los campos de la información de seguridad con los datos enviados en la solicitud
-        await informacionSeguridad.update(req.body);
-        // Redirigir a la página de información de seguridad después de la actualización
+
+        // Actualizar el foro con los datos proporcionados
+        await orm.InformacionSeguridad.update({ titulo, contenido, archivoMultimedia, fechaPublicacion }, { where: { id } });
+
+        // Redireccionar a la página de foros después de la actualización
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar la información de seguridad' });
+        return res.status(500).json({ mensaje: 'Error al actualizar foro' });
     }
 };
 
-const eliminarInformacionSeguridad = async(req, res) => {
+const eliminarInformacion = async(req, res) => {
     const { id } = req.params;
     try {
         const filasEliminadas = await orm.InformacionSeguridad.destroy({ where: { id } });
         if (filasEliminadas === 0) {
-            return res.status(404).json({ mensaje: 'Información de seguridad no encontrada' });
+            return res.status(404).json({ mensaje: 'Foro no encontrado' });
         }
-
         return res.redirect('/informacion-seguridad');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ mensaje: 'Error al eliminar información de seguridad' });
+        return res.status(500).json({ mensaje: 'Error al eliminar foro' });
     }
 };
 
 module.exports = {
-    obtenerInformacionSeguridad,
-    crearInformacionSeguridad,
-    obtenerInformacionSeguridadPorId,
-    actualizarInformacionSeguridad,
-    eliminarInformacionSeguridad,
-
+    obtenerInformacion,
+    crearInformacion,
+    obtenerInformacionPorId,
+    formularioInformacion,
+    actualizarInformacion,
+    eliminarInformacion,
 };

@@ -5,23 +5,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Contenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #B7E0D2, #ffffff); /* Fondo degradado celeste */
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px; /* Ajusta la distancia del título hacia arriba */
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: #5bc0de; /* Color celeste para el título */
+            color: white;
+            padding: 20px 0; /* Ajusta el relleno del título */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 100px; /* Ajusta la distancia del contenedor de botones hacia abajo */
+        }
+
+        .button-container form {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #5bc0de; /* Cambio de color a celeste */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #46b8da; /* Cambio de color al pasar el mouse */
+        }
+    </style>
 </head>
 
 <body>
 
     <h1>Gestión de Contenido</h1>
 
-    <!-- Formulario para agregar nuevo contenido -->
-    <form action="/gestion-contenidos/foro" method="GET" enctype="multipart/form-data">
-            
-        <button type="submit">Foros</button>
+    <!-- Contenedor de botones -->
+    <div class="button-container">
+        <!-- Formulario para foros -->
+        <form action="/gestion-contenidos/foro" method="GET" enctype="multipart/form-data">
+            <button type="submit">Foros</button>
+        </form>
+        <!-- Formulario para información de seguridad -->
+        <form action="/gestion-contenidos/informacion" method="GET" enctype="multipart/form-data">
+            <button type="submit">Información de Seguridad</button>
+        </form>
+        <!-- Formulario para foros -->
         <form action="/foros" method="GET" enctype="multipart/form-data">
-            
-        <button type="submit">Foros</button>
-        <form action="/foros" method="GET" enctype="multipart/form-data">
-            
-        <button type="submit">Foros</button>
-    </form>
+            <button type="submit">Foros</button>
+        </form>
+    </div>
+
 </body>
 
 </html>
+
