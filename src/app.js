@@ -81,6 +81,7 @@ app.use((req, res, next) => {
     app.locals.message = req.flash('message');
     app.locals.success = req.flash('success');
     app.locals.user = req.user;
+    res.locals.user = req.user || null;
     next();
 });
 
@@ -88,6 +89,7 @@ app.use(helmet());
 
 // Configurar archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/src/public', express.static('src/public'));
 
 // Rutas
 const informacionSeguridadRoutes = require('./routes/informacionSeguridadRoutes');
@@ -101,6 +103,7 @@ const programacionPublicacionRoutes = require('./routes/programacionPublicacionR
 const relacionCategoriasContenidoRoutes = require('./routes/relacionCategoriasContenidoRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const categoria1Routes = require('./routes/categoria1Routes');
+const indexRoutes = require('./routes/indexRoutes');
 
 // Configurar rutas
 app.use(informacionSeguridadRoutes);
@@ -114,6 +117,7 @@ app.use(perfilesRoutes);
 app.use(programacionPublicacionRoutes);
 app.use(relacionCategoriasContenidoRoutes);
 app.use(categoria1Routes);
+app.use(indexRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

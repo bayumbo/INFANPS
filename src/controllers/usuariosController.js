@@ -1,71 +1,85 @@
-const { Usuario } = require('../Database/dataBase.orm');
+const usersCtrl = {};
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+const pool = require("../Database/dataBase.sql");
 
-const obtenerUsuarios = async(req, res) => {
-    try {
-        const usuarios = await Usuario.findAll();
-        return res.json(usuarios);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener usuarios' });
-    }
+usersCtrl.renderSignUpForm = (req, res) => {
+    res.render('users/signup');
 };
 
-const crearUsuario = async(req, res) => {
-    try {
-        const nuevoUsuario = await Usuario.create(req.body);
-        return res.json(nuevoUsuario);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al crear usuario' });
-    }
-};
+usersCtrl.signup = async (req, res) => {
+    const { nombre, correo, contraseña, confirm_contraseña } = req.body;
+    const errors = [];
 
-const obtenerUsuarioPorId = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const usuario = await Usuario.findByPk(id);
-        if (!usuario) {
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    if (contraseña !== confirm_contraseña) {
+        errors.push({ text: 'Las contraseñas no coinciden' });
+    }
+
+    if (contraseña.length < 4) {
+        errors.push({ text: 'La contraseña debe tener al menos 4 caracteres' });
+    }
+
+    if (errors.length > 0) {
+        res.render('users/signup', {
+            errors,
+            nombre,
+            correo,
+            contraseña,
+            confirm_contraseña,
+        });
+    } else {
+        try {
+
+            // Verificar si el correo electrónico ya está en uso
+            const existingUser = pool.query('SELECT * FROM usuarios WHERE correo = ?', [correo]);
+
+            if (existingUser.length > 0) {
+                errors.push({ text: 'El correo electrónico ya está registrado' });
+
+
+                res.render('users/signup', {
+                    errors,
+                    nombre,
+                    correo,
+                    contraseña,
+                    confirm_contraseña,
+                });
+            } else {
+                // Cifrar la contraseña
+                const hashedContraseña = await bcrypt.hash(contraseña, 4);
+
+                // Guardar el usuario en la base de datos
+                const query = 'INSERT INTO usuarios(nombre, correo, contraseña) VALUES (?, ?, ?)';
+                pool.query(query, [nombre, correo, hashedContraseña]);
+                req.flash('success_msg', 'Usuario creado exitosamente');
+                res.redirect('/users/signin');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al crear el usuario');
         }
-        return res.json(usuario);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al obtener usuario por ID' });
     }
 };
 
-const actualizarUsuario = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const [filasActualizadas, [usuarioActualizado]] = await Usuario.update(req.body, { where: { id }, returning: true });
-        if (filasActualizadas === 0) {
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+usersCtrl.renderSignInForm = (req, res) => {
+    res.render('users/signin');
+};
+
+usersCtrl.signin = passport.authenticate('local', {
+        failureRedirect: '/users/signin',
+        successRedirect: '/',
+        failureFlash: true
+    });
+
+
+usersCtrl.logout = (req, res) => {
+    req.logout(function(err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Error al cerrar la sesión');
         }
-        return res.json(usuarioActualizado);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al actualizar usuario' });
-    }
+        req.flash('success', 'Sesión cerrada exitosamente');
+        res.redirect('/users/signin');
+      });
 };
-
-const eliminarUsuario = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const filasEliminadas = await Usuario.destroy({ where: { id } });
-        if (filasEliminadas === 0) {
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-        }
-        return res.json({ mensaje: 'Usuario eliminado con éxito' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ mensaje: 'Error al eliminar usuario' });
-    }
-};
-
-module.exports = {
-    obtenerUsuarios,
-    crearUsuario,
-    obtenerUsuarioPorId,
-    actualizarUsuario,
-    eliminarUsuario,
-};
+module.exports = usersCtrl;

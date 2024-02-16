@@ -1,24 +1,18 @@
-// routes/usuariosRoutes.js
+const {Router} = require('express');
+const router = Router();
 
-const express = require('express');
-const router = express.Router();
-const usuariosController = require('../controllers/usuariosController');
-const { login, showLogin } = require('../controllers/login');
 
-// Ruta para obtener todos los usuarios
-//router.get('/usuarios', usuariosController.obtenerUsuarios);
-router.post ('/login',login)
-router.get ('/login',showLogin)
-// Ruta para crear un nuevo usuario
-//router.post('/usuarios', usuariosController.crearUsuario);
+const {renderSignUpForm,renderSignInForm,signup,signin,logout} = require('../controllers/usuariosController');
 
-// Ruta para obtener un usuario por ID
-//router.get('/usuarios/:id', usuariosController.obtenerUsuarioPorId);
+//Registro de Usuarios
+router.get('/users/signup',renderSignUpForm);
+router.post('/users/signup',signup);
 
-// Ruta para actualizar un usuario por ID
-//router.put('/usuarios/:id', usuariosController.actualizarUsuario);
+//Inicio de Sesión
 
-// Ruta para eliminar un usuario por ID
-//router.delete('/usuarios/:id', usuariosController.eliminarUsuario);
+router.get('/users/signin',renderSignInForm);
+router.post('/users/signin',signin);
 
+//Cerrar Sesión
+router.get('/users/logout',logout);
 module.exports = router;

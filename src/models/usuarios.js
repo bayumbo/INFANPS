@@ -11,7 +11,8 @@ const Usuario = (sequelize, type) => {
                 type: type.STRING(100),
                 unique: true,
             },
-            contraseña: type.STRING(255),
+            contraseña: type.STRING,
+            confirm_contraseña: type.STRING,
             tipo_usuario: {
                 type: type.ENUM('Padre', 'Educador', 'Ambos'),
                 allowNull: false,

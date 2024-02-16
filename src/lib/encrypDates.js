@@ -1,4 +1,4 @@
-const CryptoJS = require('crypto-js');
+/*const CryptoJS = require('crypto-js');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -32,4 +32,4 @@ function descifrarDatos(cifrado) {
 module.exports = {
     cifrarDatos,
     descifrarDatos
-}
+} */
