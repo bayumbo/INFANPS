@@ -1,18 +1,21 @@
 // informacionSeguridadRoutes.js
 
 const express = require('express');
+const methodOverride = require('method-override');
 const router = express.Router();
-const informacionSeguridadController = require('../controllers/informacionSeguridadController');
+const forosController = require('../controllers/informacionSeguridadController');
 
-// Definir rutas para información de seguridad
-router.get('/informacion-seguridad', informacionSeguridadController.obtenerInformacionSeguridad);
-router.post('/informacion-seguridad/crear', informacionSeguridadController.crearInformacionSeguridad);
-router.get('/informacion-seguridad/editar/:id', informacionSeguridadController.obtenerInformacionSeguridadPorId);
-router.post('/informacion-seguridad/editar/:id', informacionSeguridadController.actualizarInformacionSeguridad);
-router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
-router.delete('/informacion-seguridad/eliminar/:id', informacionSeguridadController.eliminarInformacionSeguridad);
+// Habilitar method-override
+router.use(methodOverride('_method'));
 
+// Definir rutas para foros
+router.get('/informacion-seguridad', forosController.obtenerInformacion);
+router.post('/informacion-seguridad/crear', forosController.crearInformacion);
+router.get('/informacion-seguridad/:id', forosController.obtenerInformacionPorId);
+router.get('/informacion-seguridad/:id', forosController.formularioInformacion)
+    // Usar solo el método PUT para la actualización
+router.put('/informacion-seguridad/editar/:id', forosController.actualizarInformacion);
 
-
+router.get('/informacion-seguridad/eliminar/:id', forosController.eliminarInformacion);
 
 module.exports = router;
