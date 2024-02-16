@@ -1,26 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Información de Seguridad</title>
+
+    </style>
 </head>
+
 <body>
 
     <h1>EDITAR INFORMACIÓN DE SEGURIDAD</h1>
 
     <form action="/informacion-seguridad/editar/{{informacionSeguridad.id}}" method="POST">
-    <label for="titulo">Título:</label>
-    <input type="text" name="titulo" value="{{informacionSeguridad.titulo}}" required>
-    <label for="contenido">Contenido:</label>
-    <textarea name="contenido" required>{{informacionSeguridad.contenido}}</textarea>
-    <label for="comentario">Comentario:</label>
-    <textarea name="comentario">{{informacionSeguridad.comentario}}</textarea>
-    <label for="fecha_publicacion">Fecha contenidode Publicación:</label>
-    <input type="datetime-local" name="fecha_publicacion" value="{{informacionSeguridad.fecha_publicacion}}" required>
-    <label for="id_autor">ID del Autor:</label>
-    
-    <button type="submit">Actualizar Información de Seguridad</button>
-</form>
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" value="{{informacionSeguridad.titulo}}" required>
+        <label for="contenido">Contenido:</label>
+        <textarea name="contenido" required>{{informacionSeguridad.contenido}}</textarea>
+        <label for="comentario">Comentario:</label>
+        <textarea name="comentario">{{informacionSeguridad.comentario}}</textarea>
+        <label for="fecha_publicacion">Fecha de Publicación:</label>
+        <input type="datetime-local" name="fecha_publicacion" value="{{informacionSeguridad.fecha_publicacion}}" required>
+        <label for="id_autor">ID del Autor:</label>
+
+        <button type="submit">Actualizar Información de Seguridad</button>
+    </form>
 </body>
+
 </html>
+
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #94B8D0, #ffffff);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            background: #94B8D0;
+            padding: 10px;
+            border-radius: 10px;
+             font-size: 22px;
+        }
+
+        form {
+            background: linear-gradient(to bottom, #B7E0D2, #ffffff);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 70%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            width: 70%;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        
+            
+        }
+
+        button {
+            background-color: #94B8D0;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3F3F4B;
+        }
+    </style>
